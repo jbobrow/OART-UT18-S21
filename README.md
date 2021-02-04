@@ -1,2 +1,1 @@
-# NYU-OART-UT18-2021-Spring
-Designing Emerging Systems for Play
+# Designing Emerging Systems for Play, Spring 2021
