@@ -13,3 +13,14 @@ The toys and tools we play with, shape the way we think. The goal of this course
 - Design for physical and digital media
 - Design modular systems
 - Work cooperatively to achieve artistic goals
+
+
+### STUDENTS
+[Andrew](https://github.com/ateb22/OART-UT18-S21)
+[Brandon](https://github.com/bleeCS/OART-UT18-S21)
+[Carly](https://github.com/cgradeff/OART-UT18-S21)
+[Dailen](https://github.com/GerberaTetra/OART-UT18-S21)
+[Joon](https://github.com/JoonLee6075/OART-UT18-S21)
+Justin
+Max
+[Raul](https://github.com/rshah1127/OART-UT18-S21)
