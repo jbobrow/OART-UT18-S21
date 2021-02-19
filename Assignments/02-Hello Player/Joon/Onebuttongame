@@ -1,0 +1,49 @@
+int rand;
+Timer timerGame;
+bool success;
+int round;
+
+void setup() {
+  randomize();
+  setColor(OFF);
+}
+
+void loop() {
+ for(int round = 1; round < 10; round++){ 
+  if (buttonDoubleClicked()) { //startgame
+    timerGame.set(2 * 1000);
+    rand = random(1);
+    if (rand == 0) {
+      setColor(GREEN);
+      success = true;
+    }
+    else {
+      setColor(RED);
+      success = false;
+    }
+
+  }
+  if (timerGame.isExpired() != true) { //game in progress
+    // check if the player clicked on the blink
+    if (buttonSingleClicked()) {
+
+      // if the click was on green, move on to next stage
+      if (success == true) {
+        setColor(BLUE);
+      }
+
+      // if the click was on red, the game ends
+      if (success == false) {
+        setColor(MAGENTA);
+      }
+     
+
+
+
+    }
+    
+  }
+  if (timerGame.isExpired()){
+    setColor(OFF);
+  }
+}
