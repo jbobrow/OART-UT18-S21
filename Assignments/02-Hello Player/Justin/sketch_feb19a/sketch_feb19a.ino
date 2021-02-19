@@ -1,7 +1,6 @@
 Timer newTime;
-Timer progressTimer;
 bool startGame = false;
-bool setUp = true;
+bool setUp = false;
 bool pWin = false;
 int progressVal;
 int timerVal;
@@ -36,21 +35,38 @@ void loop() {
                 setColor(RED);
                 startGame = false;
                 pWin = false;
+                setUp = false;
               } 
               else if (!newTime.isExpired())
               {
                 byte timerProgress = newTime.getRemaining();
+                int timePassed = millis();
                 
-                FOREACH_FACE(f){
-                  progressTimer.set(progressVal);
-                  if(progressTimer.isExpired()){
-                    setColorOnFace(BLUE, f);
+                  if(timePassed > progressVal){
+                    setColorOnFace(BLUE, 0);
                   }
-                }
+                  if(timePassed > progressVal * 2){
+                    setColorOnFace(BLUE, 1);
+                  }
+                  if(timePassed > progressVal * 3){
+                    setColorOnFace(BLUE, 2);
+                  }
+                  if(timePassed > progressVal * 4){
+                    setColorOnFace(BLUE, 3);
+                  }
+                  if(timePassed > progressVal * 5){
+                    setColorOnFace(BLUE, 4);
+                  }
+                  if(timePassed > progressVal * 5.9){
+                    setColorOnFace(BLUE, 5);
+                  }
 
-                if(timerProgress < 100 && buttonSingleClicked()){
+                if(timerProgress < 100 && buttonDoubleClicked()){
                   pWin = true;
                   setColor(YELLOW);
+                  startGame = false;
+                  setUp = false;
+                  
                 }
                 
               }
