@@ -1,16 +1,11 @@
 # 02-Hello Player
 
-Andrew Tebbe
-Puzzle Game
-2/18/21
+### Assignment
+This weeks exercise is to create a "one-button" game using time as a core mechanic of the game. Recall elements of play from playground games that can be incorporated here, remember that the Blink is just a game piece and that it can be used to facilitate play.
 
-I have made a puzzle game where you must remember a pattern and then remember the color green's place in that pattern. 
-So, if green shows up in the second position, you must tap twice to signifiy the seocond position, and so on...
+### Resources
+[Video tutorial on game states](https://youtu.be/bjGOGW66zGE)
 
-The biggest challenge in the process of making it was finding a way to implement random patterns. 
-I had to figure out how to use "while" statements to make it so the colors would not repeat. Thankfully, I have
-a talented C programming wizard as my roomate. 
+In this video, Jon creates a simple "one-button" game showing important basics of programming for Blinks as well as good practices for typing and organizing legible code.
 
-Currently, everything is working except for feedback that you failed to to choose the right spot. The blinks 
-turns green if you select the right spot, but does nothing if you select the wrong spot. I tried to make it
-turn red, but it never worked for some reason. I have no idea why. The IF statements would only work for the true case. 
+[source code](../../Resources/Time/02-GameStates/02-GameStates.ino)
