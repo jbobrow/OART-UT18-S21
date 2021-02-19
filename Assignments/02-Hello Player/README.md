@@ -9,4 +9,3 @@ This weeks exercise is to create a "one-button" game using time as a core mechan
 In this video, Jon creates a simple "one-button" game showing important basics of programming for Blinks as well as good practices for typing and organizing legible code.
 
 [source code](../../Resources/Time/02-GameStates/02-GameStates.ino)
-
