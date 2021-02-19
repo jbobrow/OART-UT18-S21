@@ -15,10 +15,10 @@ The toys and tools we play with, shape the way we think. The goal of this course
 - Work cooperatively to achieve artistic goals
 
 ### ASSIGNMENTS
-- [00-Hello](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/00-Hello)
-- [01-Hello World](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/01-Hello%20World)
-- [02-Hello Player](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/02-Hello%20Player)
-- [03-Hello Neighbor](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/03-Hello%20Neighbor)
+- [Week 1 - Hello](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/00-Hello)
+- [Week 2 - Hello World](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/01-Hello%20World)
+- [Week 3 - Hello Player](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/02-Hello%20Player)
+- [Week 4 - Hello Neighbor](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/03-Hello%20Neighbor)
 
 ### STUDENTS
 - [Andrew](https://github.com/ateb22/OART-UT18-S21)
