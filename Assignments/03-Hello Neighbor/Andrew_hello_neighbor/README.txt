@@ -3,7 +3,7 @@ Communication Game
 2/26/21
 
 
-I barely know how to code and could barely make anything
+I barely know how to code and struggled greatly. 
 
 GAME INSTRUCTIONS: TRY TO MAKE WHOLE COLORS (all faces same). START THEM OFF CONNECTED IS ONLY REQUIREMENT. 
 
