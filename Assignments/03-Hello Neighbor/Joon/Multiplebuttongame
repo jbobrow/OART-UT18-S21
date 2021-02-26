@@ -1,0 +1,113 @@
+bool inGame = false;
+Timer myTimer;
+
+bool isClickable = false;
+bool isClicked = false;
+
+int rand;
+int data = 0;
+
+void setup() 
+{
+  randomize();
+  setColor(OFF);
+}
+
+void updateValue()
+{
+      FOREACH_FACE(f) 
+    {
+      if(didValueOnFaceChange(f)) 
+      { 
+        data = getLastValueReceivedOnFace(f);
+      }
+    }
+}
+
+void loop() 
+{
+  updateValue();
+
+  if (data == 1 && !inGame)
+  {
+    StartMatch();
+  }
+
+  if (data == 0 && inGame)
+  {
+    EndMatch();
+  }
+
+  if (buttonDoubleClicked() && !inGame)
+  {
+    data = 1;
+    setValueSentOnAllFaces(1);
+  }
+
+  if (inGame)
+  {
+
+    if (!myTimer.isExpired() && buttonSingleClicked())
+    {
+      if (isClickable)
+      {
+        setColor(BLUE);
+      }
+      else
+      {
+        setColor(MAGENTA);
+      }
+      isClicked = true;
+    }
+
+    // RoundTimer done
+    if (myTimer.isExpired())
+    {
+      // Didn't click on Green
+      if (isClickable && !isClicked)
+      {
+        EndMatch();
+      }
+      // Clicked on Red
+      else if  (!isClickable && isClicked)
+      {
+        EndMatch();
+      }
+      // All G - Continue to Next
+      else
+      {
+        StartMatch();
+      }
+    }
+
+  }
+}
+
+void EndMatch()
+{
+  data = 0;
+  setColor(OFF);
+  setValueSentOnAllFaces(0);
+  inGame = false;
+}
+
+// Initial Setup
+void StartMatch()
+{ 
+    //startgame
+    myTimer.set(5 * 1000);
+    isClicked = false;
+    inGame = true;
+    rand = random(1);
+
+    if (rand == 0) 
+    {
+      setColor(GREEN);
+      isClickable = true;
+    }
+    else 
+    {
+      setColor(RED);
+      isClickable = false;
+    }
+}
