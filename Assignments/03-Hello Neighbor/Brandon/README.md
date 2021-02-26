@@ -1,0 +1,7 @@
+# Relay
+For this week we were task with creating a game that utilized communication between blinks. I decided to try to create a simple, single player game in which the the player must click on all the blinks in the row before the timer expires. 
+
+Setup for the game is done by isolating one blink and double clicking. This will tell the blink that it is the first in the chain. The rest of the blinks should then be connected in a straight line. Once a line row of blinks is setup (there isn't really a specific number of blinks required so long as there are more than two connected), the first blink can be long pressed to start the game. The blink should turn green, then dim as the timer counts down. The goal is to press the current blink in the chain before the timer expires, then it should tell the next blink to turn green and start its timer, and so on until the end of the chain. If the timer expires before the blink is pressed, the entire chain should turn red denoting that the player has failed to complete the game.
+
+## Issues
+I was unable to figure out how to properly use game states, so the process of actually restarting the game is less than ideal. There are still some bugs with gettign the timers to work as expected all the time.
