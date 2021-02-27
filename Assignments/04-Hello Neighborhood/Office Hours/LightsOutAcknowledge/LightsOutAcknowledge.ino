@@ -29,7 +29,10 @@ void loop() {
 
   // when pressed, update my message to send that I pressed
   if(buttonPressed()) {
-    myMessage = PRESSED;
+    
+    FOREACH_FACE(f) {
+      myMessages[f] = PRESSED;
+    }
   }
 
   // when blink pressed tell all neighbors to flip their faces connect to me
@@ -74,4 +77,5 @@ void loop() {
           setColorOnFace(RED,f);
           break;
     }
+  }
 }
