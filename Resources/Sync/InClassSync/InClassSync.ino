@@ -53,20 +53,20 @@ void syncLoop() {
   bool didNeighborChange = false;
 
   // look at all neighbors, and compare to the last time we saw them
-  FOREACH_FACE(f) {
-    if ( !isValueReceivedOnFaceExpired(f) ) {
+  FOREACH_FACE(face) {
+    if ( !isValueReceivedOnFaceExpired(face) ) {
 
       // get our neighbor value
-      byte neighborVal = getLastValueReceivedOnFace(f);
+      byte neighborVal = getLastValueReceivedOnFace(face);
 
       // check if changed
-      if ( neighborState[f] != neighborVal ) {
+      if ( neighborState[face] != neighborVal ) {
         // value has changed
         didNeighborChange = true;
       }
 
       // then store the value
-      neighborState[f] = neighborVal;
+      neighborState[face] = neighborVal;
     }
   }
 
