@@ -27,5 +27,5 @@ The toys and tools we play with, shape the way we think. The goal of this course
 - [Dailen](https://github.com/GerberaTetra/OART-UT18-S21)
 - [Joon](https://github.com/JoonLee6075/OART-UT18-S21)
 - [Justin](https://github.com/vnotjustin/OART-UT18-S21)
-- Max
+- [Max](https://github.com/223thraxx/OART-UT18-S21)
 - [Raul](https://github.com/rshah1127/OART-UT18-S21)
