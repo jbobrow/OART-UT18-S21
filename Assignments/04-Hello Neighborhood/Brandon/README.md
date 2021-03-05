@@ -1,0 +1,5 @@
+# Hello Neighborhood
+I actually did the incorrect assignment on accident. I have blinks communicating with on another, but I created a variation of one of the childhood games that we shared earlier in the class.
+I created a modified version of KanJam.
+
+The game is played with a total of 8 blinks. 6 blinks are used for the goals, 2 goals of 3 blinks each. The remaining 2 blinks are frisbees. Long press an isolated blink to create a frisbee. Double click a frisbee blink to choose between 1 of 2 teams. With the goal set up a decent distance away, slide your firsbee blink towards the goal in an attempt to have it connect in the slot. If your frisbee successfully connects, your score will increas by one. Your score will be displayed on your blink. First to 6 wins. The two players should take turns throwing their frisbee (sliding their blink).
