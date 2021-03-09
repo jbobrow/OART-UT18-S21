@@ -1,0 +1,119 @@
+Timer pressure_time;
+Timer aesthetic_time;
+bool is_spinning = true;
+byte face_position;
+int game_state = 0;
+Timer zzTimer;
+bool clicked = false;
+
+int dataReceived = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+// value received 1 = good, 2 = bad
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  //setups
+  face_position = (millis() / 190) % 6;
+  
+  // SPINNY IDLE
+  if (game_state == 0)
+  {
+    setColor(OFF);
+    setColorOnFace(makeColorRGB(255, 255, 10), face_position);
+  }
+
+ 
+  // START GAME
+  if (buttonDoubleClicked())
+  {
+    //start the game
+    is_spinning = true;
+    pressure_time.set(15 * 1000);
+    game_state = 1;
+  }
+
+  //is the game active
+  if (pressure_time.isExpired() != true)
+  {
+    //rotate blue light
+    if (is_spinning == true)
+    {
+      setColor(makeColorRGB(237, 162, 0));
+      setColorOnFace(makeColorRGB(10, 35, 255), face_position);
+
+    }
+  }
+
+
+  if (buttonSingleClicked())
+  {
+    //stop the blue light
+    is_spinning = false;
+    pressure_time.never();
+    
+    //if the light is on p0, then flash green and allow the game to be restarted, if not flash red
+
+    if (face_position <= 1)
+    {
+
+      setColor(makeColorRGB(0, 255, 1));
+      zzTimer.set(1 * 1000);
+      clicked = true;
+    }
+    else
+    {
+      setColor(makeColorRGB(255, 5, 5));
+      
+      setValueSentOnAllFaces(2);
+    }
+
+  }
+  
+  if (zzTimer.isExpired() && clicked)
+  {
+    SendData();
+  }
+  
+
+  // TIME EXPIRED
+  if (pressure_time.isExpired() == true && game_state == 1 && !clicked)
+  {
+    setColor(makeColorRGB(millis(), 5, 5));
+  }
+  
+  CheckValueReceived();
+  
+  if (dataReceived == 1 && !clicked)
+  {
+    setColor(GREEN);
+    zzTimer.set(1 * 1000);
+    clicked = true;
+    game_state = 1;
+  }
+}
+
+void SendData()
+{
+  setValueSentOnAllFaces(1);
+  setColor(OFF);
+}
+
+
+void CheckValueReceived()
+{  
+  FOREACH_FACE(f)
+  {
+    if (getLastValueReceivedOnFace(f) != 0 && didValueOnFaceChange(f))
+    {
+        dataReceived = getLastValueReceivedOnFace(f);
+    }    
+  }
+}
+
