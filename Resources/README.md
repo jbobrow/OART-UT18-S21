@@ -1,5 +1,9 @@
 # Resources
 
+## Tools
+### Github
+In this class, we'll be submitting our assignments and projects using git, and more specifically, Github. The process of creating a fork of this repo and then contributing to your own copy of this repo can be learned in this tutorial [here](https://github.community/t/contributing-to-repositories-with-github-desktop/10210). Note that this tutorial also shows how to keep your copy of your repo up to date with all of the changes to the main class repo or "upstream" repo. This will allow you to see each others work as well as have the latest resources from class and office hours. 
+
 ## Move38 Published Games
 - [Fracture](https://github.com/Move38/Fracture)
 - [Mortals](https://github.com/Move38/Mortals)
