@@ -13,3 +13,20 @@ The toys and tools we play with, shape the way we think. The goal of this course
 - Design for physical and digital media
 - Design modular systems
 - Work cooperatively to achieve artistic goals
+
+### ASSIGNMENTS
+- [Week 1 - Hello](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/00-Hello)
+- [Week 2 - Hello World](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/01-Hello%20World)
+- [Week 3 - Hello Player](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/02-Hello%20Player)
+- [Week 4 - Hello Neighbor](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/03-Hello%20Neighbor)
+- [Week 5 - Hello Neighborhood](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/04-Hello%20Neighborhood)
+
+### STUDENTS
+- [Andrew](https://github.com/ateb22/OART-UT18-S21)
+- [Brandon](https://github.com/bleeCS/OART-UT18-S21)
+- [Carly](https://github.com/cgradeff/OART-UT18-S21)
+- [Dailen](https://github.com/GerberaTetra/OART-UT18-S21)
+- [Joon](https://github.com/JoonLee6075/OART-UT18-S21)
+- [Justin](https://github.com/vnotjustin/OART-UT18-S21)
+- [Max](https://github.com/223thraxx/OART-UT18-S21)
+- [Raul](https://github.com/rshah1127/OART-UT18-S21)
