@@ -1,5 +1,8 @@
 /*
-   Shared Game Mode Across All Binks
+   Shared Game Mode Across All Blinks
+   This can work for as many different game modes as you need
+   Switching between them simply requires a call to changeMode()
+   The signalState takes care of making sure all other Blinks change too
 */
 
 enum signalStates {INERT, GO, RESOLVE};
