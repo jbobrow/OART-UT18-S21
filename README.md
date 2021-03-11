@@ -21,6 +21,11 @@ The toys and tools we play with, shape the way we think. The goal of this course
 - [Week 4 - Hello Neighbor](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/03-Hello%20Neighbor)
 - [Week 5 - Hello Neighborhood](https://github.com/jbobrow/OART-UT18-S21/tree/main/Assignments/04-Hello%20Neighborhood)
 
+### Projects
+- [Project 1](https://github.com/jbobrow/OART-UT18-S21/tree/main/Projects/Something%20Familiar)
+- [Project 2]()
+- [Project 3]()
+
 ### STUDENTS
 - [Andrew](https://github.com/ateb22/OART-UT18-S21)
 - [Brandon](https://github.com/bleeCS/OART-UT18-S21)
