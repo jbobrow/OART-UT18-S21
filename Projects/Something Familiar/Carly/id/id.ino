@@ -1,14 +1,4 @@
-//all im trying to do is assign ids to each blink
-//there are 10 blinks all set up in one line and the user will have to single click 
-//on one of the blinks on either end of the line and then the blinks will listen to 
-//each other and take an id from the array of ids
-//the display colors are just to test and show the blinks id 
 
- /* 
- single click: set self to index 0, tell neighbor my index, they set themselves to next index, they tell next neighbor & so on...
- display color based on index of id
-*/
-//what jonathan told me to do ^^ ???? but like how???
 
 byte id [10] = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
 
@@ -22,7 +12,7 @@ void setup() {
 
 void loop() { 
 
-// this is all the shit that i can't figure out :), so essentially all of it and none of it works
+
    FOREACH_FACE(f) {
      if (buttonSingleClicked() ) {
        id[0];
