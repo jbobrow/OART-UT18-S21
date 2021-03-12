@@ -1,0 +1,205 @@
+
+
+
+// states for game play
+//enum signalStates {INERT,RESET,RESOLVE};
+//byte signalState = INERT;
+enum Mode {
+  START,  // = 0
+  GAME1, // = 1
+  GAME2,
+  GAME3,
+  IT,
+  END,      // = 2
+  NUM_MODES,  // = 3
+};
+
+
+byte distance = 0;
+
+Timer game1Timer;
+#define GAME_DURATION 10000 // 1 min duration
+
+Timer game2Timer;
+#define GAME2_DURATION 10000
+
+Timer game3Timer;
+#define GAME3_DURATION 20000
+
+Timer flashooTimer;
+#define FLASHOO_DURATION 6000 // 6 seconds
+
+Timer flashTimer;
+#define FLASH_DURATION 4000 // 4 second flash timer
+
+Timer flash2Timer;
+#define FLASH2_DURATION 3000
+
+Timer flash2oTimer;
+#define FLASH2O_DURATION 3000
+
+Timer flash3oTimer;
+#define FLASH3O_DURATION 3000
+
+Timer flash3Timer;
+#define FLASH3_DURATION 2000
+
+byte mode;
+
+// create a game character
+
+
+
+void setup() {
+  // put your setup code here, to run once:
+  mode = START;
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  switch ( mode ) {
+
+    case START:
+      idleLoop();
+      break;
+
+    case GAME1:
+      game1Loop();
+      break;
+  
+     case GAME2:
+      gam2Loop();
+      break;
+   
+  case GAME3:
+      gam3Loop();
+      break;
+  
+    case IT:
+      itLoop();
+      break;
+      
+   case END:
+     endLoop();
+     break;
+  }
+}
+//bool isPulsing = false;  // 1 = TRUE and 0 = FALSE
+/*
+   Idle Loop
+   Do this when the game is not actively being played
+*/
+void idleLoop() {
+  // do stuff related to the insert coin mode
+  setColor( MAGENTA );
+  // handle user interaction
+  if ( buttonSingleClicked() ) {
+    // start the game if double clicked
+    mode = GAME1;
+   distance = 0;
+    
+    
+    // set the duration for the game timer
+    game1Timer.set( GAME_DURATION );
+    flashooTimer.set( FLASHOO_DURATION );
+    
+    
+  }
+  if(buttonLongPressed()) {
+      mode = IT;
+  }
+}
+
+/*
+   Gameplay Loop
+   Handle all in game logic here, not end game though
+*/
+void itLoop() {
+  setColor(BLUE);
+    if(buttonDoubleClicked()) {
+      mode = GAME1;
+    }
+  
+ //Do stuff related to being it
+  
+  }
+void game1Loop() {
+  
+  
+  // do stuff related to the gameplay mode
+
+if(flashooTimer.isExpired()) {
+flashTimer.set( FLASH_DURATION );
+  setColor(GREEN);
+}
+  // if the user presses the button, move 1 distance
+ if(buttonSingleClicked()) {
+    distance = distance + 1;
+  }
+ // show our current position on one of the 6 faces
+  byte facePosition = distance % 6; // 0 - 5
+  
+  setColorOnFace( WHITE, facePosition);
+
+  // if the game time is up, let's go to the next level
+  if (game1Timer.isExpired()) {
+    mode = GAME2;
+ game2Timer.set(GAME2_DURATION);
+ flash2oTimer.set( FLASHOO_DURATION );
+  }
+  
+
+  // ignore double clicks
+  if(buttonDoubleClicked()) {
+
+  }
+void gam2Loop() {
+setColor(BLUE);
+if(flash2oTimer.isExpired()) {
+flash2Timer.set( FLASH2_DURATION );
+  setColor(GREEN);
+}
+   
+   
+   if (game2Timer.isExpired()) {
+    mode = GAME3;
+ game3Timer.set(GAME3_DURATION);
+ flash3oTimer.set( FLASH3O_DURATION );
+  }
+}
+
+
+void gam3Loop() {
+setColor(BLUE);
+if(flash3oTimer.isExpired()) {
+flash3Timer.set( FLASH3_DURATION );
+  setColor(GREEN);
+}
+ if(game3Timer.isExpired()) {
+  mode = END;
+ }
+}
+/*
+   End Loop
+   Show the end result of the game
+*/
+void endLoop() {
+  // do stuff related to the end mode
+  // handle button presses
+ // if(buttonDoubleClicked()) {
+  if(game1Timer.isExpired()) {
+    mode = START;
+ }
+  
+ // setColor(WHITE);
+
+  // display how far the player got
+   //for every 10 distance, light up a face
+  // for( byte i=0; i<6; i++) {  // i will loop through 0-5
+   
+  // if(distance / 10 > i) {  // every 10 steps we light up another face
+ //   setColorOnFace(RED, i); 
+   }
+  //}
+//}
