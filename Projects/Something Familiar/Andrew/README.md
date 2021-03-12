@@ -9,12 +9,13 @@ Game Selected
 Classical minigolf. Putt the ball and try to get it into the hole in one shot! 
 
 ## Game Instructions
-Once the game loads, all the blinks will be green. Keep them all together.
+Once the game loads, all the blinks will be green. Keep them all connected.
 1. Single click 1 blink to be the ball. It will turn white. 
 2. Double click 1 blink to be the hole. It will turn red. 
 3. Then,  position the ball and the hole on opposite sides of the remaining green blinks. 
 4. Single click the white ball to putt.
 5. If it goes into the hole, it will turn Cyan and the game is over. 
+6. To play again, reupload the game to blinks. 
 
 ### Setup
 Keep the blinks all together until a ball and hole are declared. Then, seperate them and construct the course. 
