@@ -12,11 +12,10 @@ Test your touch and timing in a fast paced game of Jackpot. Race to accrue the m
 ## Game Instructions- READ THROUGH BEFORE PLAYING
 
 ### Setup
-Setup goes here
 
-Setup all the blinks you want to play with in a cluster. When the game is loaded up, all the blinks will be white. Click a blink to cycle between the 3 team colors and triple click it if you want to switch it back to white. **If it is on a team color, we will call this a slider blink. If it is not, this is a spinner.** After the team blinks have been selected, keep them connected to the cluster and double click any blink in the cluster.
+Setup all the blinks you want to play with in a cluster. When the game is loaded up, all the blinks will be white. Click a blink to cycle between the 3 team colors and triple click it if you want to switch it back to white. **If it is on a team color, we will call this a slider blink. If it is not, this is a spinner.** After the team blinks have been selected, keep them connected to the cluster, position them to the outside, and double click any blink in the cluster.
 
-This will then switch to a jackpot selection mode. Here, click on a blink that is off to turn it into a jackpot blink and click again if you want to turn it off. If you are playing somebody, make sure you both agree on the placement of the jackpot blink. Then double click a blink in the back that will not get hit. There is a weird bug that I am still working out and in order for the game to properly reset, click a blink in the back to make sure it can reset. 
+This will then switch to a jackpot selection mode. Here, click on a blink that is off to turn it into a jackpot blink and click again if you want to turn it off. If you are playing somebody, make sure you both agree on the placement of the jackpot blink. Then double click a blink in the back that will not get hit (towards the back). There is a weird bug that I am still working out and in order for the game to properly reset, click a blink in the back to make sure it can reset. 
 
 
 ### Gameplay
@@ -25,13 +24,12 @@ Once you double click, quickly remove your slider blinks, slide the cluser away 
 
 
 ### Win Condition
-Win condition goes here
 
 Whoever hits the jackpot blink wins automatically! (All the blinks will turn yellow)
 
 If the timer expires before the jackpot blink is hit, then count your score. Magenta blinks are worth 2 points and blue blinks are worth 1 point. (All the blinks will turn red)
 
-**Note**: I have bug to where not all blinks know when the time is expired. If you see a blink turn red, this means the time has expired. To reset the game, put all the blinks back onto the cluster and press the red blink. This resets the game.
+**Note**: I have bug to where not all blinks know when the time is expired. If you see a blink turn red, this means the time has expired. To reset the game, put all the blinks back onto the cluster and press the red blink. This resets the game. If no blinks turn red after a significant amount of time, remove the jackpot blink, set it so it still touches the cluster but has an exposed side. Then try to attatch the slider to the jackpot so that all the blinks turn yellow (no need to slide across in this case).
 
 Regardless, to play again, reattatch all blinks and single click any red or yellow blink and replay. 
 
