@@ -28,7 +28,7 @@ void loop() {
   if (game_state == 0)
   {
     setColor(OFF);
-    setColorOnFace(makeColorRGB(255, 255, 10), 0);
+    setColorOnFace(makeColorRGB(255, 255, 10), 5);
   	DrawBaskets();  
   }
 
@@ -119,7 +119,7 @@ void loop() {
     if (dataReceived == 1)
     {
       setColor(GREEN);
-      zzTimer.set(1/counter * 1000);
+      zzTimer.set((1.5/counter) * 1000);
       clicked = true;
       game_state = 1;
     }
