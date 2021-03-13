@@ -26,8 +26,8 @@ Simple: Line up the blinks so that (in the case of 6 blinks) there are 4 blinks 
 
   EXTREME COURSE VARIATION:
   Place the hole alone after its declared. Then, slide all of the green blinks against the hole blink to construct the course. After that, slide in the ball to connect to one of the green blinks and shoot from there. 
-  
-  <img width="619" alt="mmidterm e xtrama pic" src="https://user-images.githubusercontent.com/78987969/111050888-4b77ea00-841d-11eb-8c41-2e3a6fbb8666.png">
+ <img width="619" alt="mmidterm e xtrama pic" src="https://user-images.githubusercontent.com/78987969/111050927-837f2d00-841d-11eb-8dbf-8cb96db478e5.png">
+
 
 ### Win Condition
 Line up the blinks so that the ball and  the hole are on opposite sides of all the blinks. Single click the ball and win.  
@@ -35,6 +35,7 @@ Line up the blinks so that the ball and  the hole are on opposite sides of all t
 ## Process
 
 - Inspiration
+
 Golf is one of the great games and I was hoping to recreate a highly concentrated version of it in mini golf. 
 
 - Design Process
