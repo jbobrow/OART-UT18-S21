@@ -21,9 +21,13 @@ Once the game loads, all the blinks will be green. Keep them all connected.
 Keep the blinks all together until a ball and hole are declared. Then, seperate them and construct the course. 
 ### Gameplay
 Simple: Line up the blinks so that (in the case of 6 blinks) there are 4 blinks in between the ball and the hold. 
+<img width="502" alt="Screen Shot 2021-03-13 at 4 57 46 PM" src="https://user-images.githubusercontent.com/78987969/111050895-5599e880-841d-11eb-9cec-e506162ce5e9.png">
+
 
   EXTREME COURSE VARIATION:
   Place the hole alone after its declared. Then, slide all of the green blinks against the hole blink to construct the course. After that, slide in the ball to connect to one of the green blinks and shoot from there. 
+  
+  <img width="619" alt="mmidterm e xtrama pic" src="https://user-images.githubusercontent.com/78987969/111050888-4b77ea00-841d-11eb-8c41-2e3a6fbb8666.png">
 
 ### Win Condition
 Line up the blinks so that the ball and  the hole are on opposite sides of all the blinks. Single click the ball and win.  
