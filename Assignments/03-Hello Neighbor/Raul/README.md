@@ -2,6 +2,8 @@
 
 This is my version of Mastermind. I loved this game when I was a kid. Since the game requires the clicking imput to play, I did not want to make it too confusing. Therefore, there are two programs to send to 3 blinks each. 
 
+Video: https://youtu.be/ZOEIE_3YE5w 
+
 **RULES**
 
 On the mystery blinks, ideally someone else, will click once to cycle through preset colors. Once you are satisfied, double click to hide the color. If the color must be changed, hold down until the entire blink turns white and then continue to cycle through the colors. When the mystery blinks are double clicked a white light will appear on one segment. Position this light outwards so that one blink can be attatched to it.
