@@ -29,7 +29,7 @@ Timer patternTimer;
 
 // game timer
 Timer gameTimer;
-#define GAME_TIME 10000 // 10 sec
+#define GAME_TIME 15000 // 15 sec
 
 
 
@@ -46,7 +46,7 @@ void loop() {
       setupLoop();
       break;
     
-    case READY: // ready stage before game starts
+    case READY: // ready stage before game starts 
       readyLoop();
       break;
 
@@ -63,7 +63,7 @@ void loop() {
       break;
 
     case END:
-      endLoop(); // where user goes when they incorrectly guess a pair
+      endLoop(); // where id colors are displayed for the player to check if they correctly guessed the pairs
       break;
   }
 
@@ -158,7 +158,7 @@ void setupLoop() {
     if (!isValueReceivedOnFaceExpired(f)) {
       if (getLastValueReceivedOnFace(f) == READY) {
          mode = READY;
-         countdownTimer.set( COUNT_TIME );      
+               
       }
     }
   }
@@ -224,27 +224,31 @@ void patternLoop() {
 
 void gameLoop() {
   setColor(WHITE);
-
-  // if the time is up, check to see if my neighbor is my pair
-//  if (gameTimer.isExpired()) { 
-//    FOREACH_FACE(f) {
-//      if (!isValueReceivedOnFaceExpired(f)) { // If I have a neighbor here do the following
-//        if ((getLastValueReceivedOnFace(f) == ) { // if my id is the same as neighbor id, sucess & restart game
-//          mode = READY; 
-//        } else { // if my id is not the same as neighbor id, end game
-//          mode = END; 
-//        }
-//      }
-//    }
-//  }
+  
+  if (gameTimer.isExpired()) {
+    mode = END;
+  }
   
 }
 
 void endLoop() {
+   if (myIdIndex != UNASSIGNED) { //displays color based on what id the blink has
+    
+    if (ids[myIdIndex] == 1) { // display my assigned color
+      setColor(MAGENTA);
+    } else if (ids[myIdIndex] == 2) {
+      setColor(BLUE);
+    } else if (ids[myIdIndex] == 3) {
+      setColor(GREEN);
+    } else if (ids[myIdIndex] == 4) {
+      setColor(YELLOW);
+    } else if (ids[myIdIndex] == 5) {
+      setColor(PINK);
+    }
   
-  setColor(RED);
+  }
 
-  if(buttonDoubleClicked()) { // double click will restart the game to countdown
+  if (buttonDoubleClicked()) {
     mode = READY;
   }
 }
