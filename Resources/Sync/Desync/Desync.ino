@@ -5,32 +5,39 @@
 */
 
 #define PERIOD 3000 // 3 second period
-#define ALPHA 95  // 95% jump
+#define ALPHA 80  // 95% jump
 
-bool just_fired = false;
-uint32_t my_fire = 0;
-uint32_t next_fire = 0;
-uint32_t prev_fire = 0;
-uint32_t last_fire = 0;
+struct Neighbor {
+  Timer timer;
+  byte face;
+};
+
+Neighbor n1;
+Neighbor n2;
 
 Timer fireTimer;
-Timer slotStartTimer;
-Timer slotEndTimer;
+bool justFired = false;
 
 byte fireValue = 1;
-byte last_fire_neighbor = 0;
 
 byte neighborVals[6] = {0, 0, 0, 0, 0, 0};
 
 void setup() {
   // put your setup code here, to run once:
-
+  n1.timer.never();
+  n2.timer.never();
+  n1.face = 6;
+  n2.face = 6;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   if (buttonPressed()) {
     fireTimer.set(0);
+    n1.timer.never();
+    n2.timer.never();
+    n1.face = 6;
+    n2.face = 6;
   }
 
   // if the fire timer expires
@@ -38,10 +45,16 @@ void loop() {
     // share fire message
     fireValue = 1 + (fireValue % 2);  // toggles between 1 and 2
     setValueSentOnAllFaces(fireValue);
-    just_fired = true;
-    my_fire = millis();
-    prev_fire = last_fire;
     fireTimer.set(PERIOD);
+    justFired = true;
+  }
+
+  // keep neigbor timers up to speed
+  if (n1.timer.isExpired()) {
+    n1.timer.set(PERIOD);
+  }
+  if (n2.timer.isExpired()) {
+    n2.timer.set(PERIOD);
   }
 
   FOREACH_FACE(f) {
@@ -54,35 +67,67 @@ void loop() {
     neighborVals[f] = neighborVal;
   }
 
+  if ( justFired ) {
+    // update to our goal
+    chaseGoal();
+    justFired = false;
+  }
+
   // display the states
-  // if I fired set my color to white for 300ms
-  if (fireTimer.getRemaining() > (PERIOD - 300)) {
+  // display a hue for where I am in my timer
+  byte hue = map(fireTimer.getRemaining(), 0, PERIOD, 0, 255);
+  setColor(makeColorHSB(hue, 255, 255));
+
+  // if I fired set my color to white for 100ms
+  if (fireTimer.getRemaining() > (PERIOD - 100)) {
     setColor(WHITE);
   }
-  else {
-    setColor(OFF);
-  }
-  if ((millis() - last_fire) < 300) {
-    setColorOnFace(GREEN, last_fire_neighbor);
-  }
+
 }
 
 void neighborFiredOnFace(byte f) {
 
-  last_fire = millis();
-  last_fire_neighbor = f;
+  // assign to neighbor if not yet assigned
+  if (n1.face == 6) {
+    n1.face = f;
+  }
+  else if (n2.face == 6) {
+    n2.face = f;
+  }
 
-  uint32_t time_since_my_fire = millis() - my_fire;
-  uint32_t time_since_prev_fire = millis() - prev_fire;
+  // update neighbor timers to reflect their internal timers
+  if ( f == n1.face ) {
+    n1.timer.set(PERIOD);
+  }
+  else if ( f == n2.face ) {
+    n2.timer.set(PERIOD);
+  }
+}
 
-  // if a neighbor fires
-  uint32_t slot_start = PERIOD + (time_since_prev_fire + time_since_my_fire ) / 2;
-  uint32_t slot_end = PERIOD + (last_fire + time_since_my_fire) / 2;
-  uint32_t goal_time = PERIOD + (1 - ALPHA) * time_since_my_fire + ALPHA * time_since_prev_fire;
+void chaseGoal() {
+  if (n1.face != 6 && n2.face != 6) {
+    // both have been initialized, let's move towards being between them
+    uint16_t range;
+    
+    if( n2.timer.getRemaining() - n1.timer.getRemaining() > 0 ) {
+      range = n2.timer.getRemaining() - n1.timer.getRemaining();
+    }
+    else {
+      range = n1.timer.getRemaining() - n2.timer.getRemaining();
+    }
 
-  // update my timer to the goal
-  uint32_t now = PERIOD - fireTimer.getRemaining(); // time passed
-  fireTimer.set(goal_time - now);
-  //  slotStartTimer.set(slot_start - now);
-  //  slotEndTimer.set(slot_end - now);
+    if ( range < (PERIOD / 2) ) {
+      // let's go between...
+      // set my timer ALPHA(95%) of the way towards the goal
+      uint16_t goalTime = ( fireTimer.getRemaining() * (100 - ALPHA) + (range / 2) * ALPHA ) / 100;
+      fireTimer.set(goalTime);
+    }
+    else {
+      // let's go between...
+      // set my timer ALPHA(95%) of the way towards the goal
+      uint16_t goalTime = ( fireTimer.getRemaining() * (100 - ALPHA) + ((PERIOD - range) / 2) * ALPHA ) / 100;
+      fireTimer.set(goalTime);
+    }
+  }
+
 }
