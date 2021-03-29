@@ -5,15 +5,13 @@
 */
 
 #define PERIOD 3000 // 3 second period
-#define ALPHA 80  // 95% jump
+#define ALPHA 95  // 95% jump
 
-struct Neighbor {
-  Timer timer;
-  byte face;
-};
+Timer n1_timer;
+Timer n2_timer;
 
-Neighbor n1;
-Neighbor n2;
+byte n1_face = 6;
+byte n2_face = 6;
 
 Timer fireTimer;
 bool justFired = false;
@@ -24,20 +22,24 @@ byte neighborVals[6] = {0, 0, 0, 0, 0, 0};
 
 void setup() {
   // put your setup code here, to run once:
-  n1.timer.never();
-  n2.timer.never();
-  n1.face = 6;
-  n2.face = 6;
+  n1_timer.never();
+  n2_timer.never();
+  n1_face = 6;
+  n2_face = 6;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   if (buttonPressed()) {
     fireTimer.set(0);
-    n1.timer.never();
-    n2.timer.never();
-    n1.face = 6;
-    n2.face = 6;
+    n1_timer.never();
+    n2_timer.never();
+    n1_face = 6;
+    n2_face = 6;
+    // reset neighbor vals
+    FOREACH_FACE(f) {
+      neighborVals[f] = 0;
+    }
   }
 
   // if the fire timer expires
@@ -50,27 +52,29 @@ void loop() {
   }
 
   // keep neigbor timers up to speed
-  if (n1.timer.isExpired()) {
-    n1.timer.set(PERIOD);
+  if (n1_timer.isExpired()) {
+    n1_timer.set(PERIOD);
   }
-  if (n2.timer.isExpired()) {
-    n2.timer.set(PERIOD);
+  if (n2_timer.isExpired()) {
+    n2_timer.set(PERIOD);
   }
 
   FOREACH_FACE(f) {
-    if (isValueReceivedOnFaceExpired(f)) continue;
-    byte neighborVal = getLastValueReceivedOnFace(f);
-    if ( neighborVal != 0 && neighborVal != neighborVals[f] ) {
-      // change happened here
-      neighborFiredOnFace(f);
-    }
-    neighborVals[f] = neighborVal;
-  }
+    if (!isValueReceivedOnFaceExpired(f)) {
+      byte neighborVal = getLastValueReceivedOnFace(f);
+      if ( (neighborVal != 0) && (neighborVal != neighborVals[f]) ) {
+        // change happened here
+        neighborFiredOnFace(f);
 
-  if ( justFired ) {
-    // update to our goal
-    chaseGoal();
-    justFired = false;
+        if ( justFired ) {
+          justFired = false;
+          // update to our goal
+          chaseGoal();
+        }
+
+      }
+      neighborVals[f] = neighborVal;
+    }
   }
 
   // display the states
@@ -88,46 +92,65 @@ void loop() {
 void neighborFiredOnFace(byte f) {
 
   // assign to neighbor if not yet assigned
-  if (n1.face == 6) {
-    n1.face = f;
+  if (n1_face == 6) {
+    n1_face = f;
   }
-  else if (n2.face == 6) {
-    n2.face = f;
+  else if (n2_face == 6 && f != n1_face) {
+    n2_face = f;
   }
 
   // update neighbor timers to reflect their internal timers
-  if ( f == n1.face ) {
-    n1.timer.set(PERIOD);
+  if ( f == n1_face ) {
+    n1_timer.set(PERIOD);
   }
-  else if ( f == n2.face ) {
-    n2.timer.set(PERIOD);
+  else if ( f == n2_face ) {
+    n2_timer.set(PERIOD);
   }
 }
 
 void chaseGoal() {
-  if (n1.face != 6 && n2.face != 6) {
+  if (n1_face != 6 && n2_face != 6) {
     // both have been initialized, let's move towards being between them
     uint16_t range;
-    
-    if( n2.timer.getRemaining() - n1.timer.getRemaining() > 0 ) {
-      range = n2.timer.getRemaining() - n1.timer.getRemaining();
+    uint16_t goal;
+
+    // n2 just fired
+    if ( (n2_timer.getRemaining() - n1_timer.getRemaining()) > 0 ) {
+      range = n2_timer.getRemaining() - n1_timer.getRemaining();
+      if ( range < (PERIOD / 2) ) {
+        goal = n1_timer.getRemaining() + range / 2;
+        if ( goal > PERIOD ) {
+          goal = goal - PERIOD;
+        }
+      }
+      else {
+        goal = n2_timer.getRemaining() + (PERIOD - range) / 2;
+        if ( goal > PERIOD ) {
+          goal = goal - PERIOD;
+        }
+      }
+
     }
+    // n1 just fired
     else {
-      range = n1.timer.getRemaining() - n2.timer.getRemaining();
+      range = n1_timer.getRemaining() - n2_timer.getRemaining();
+      if ( range < (PERIOD / 2) ) {
+        goal = n2_timer.getRemaining() + range / 2;
+        if ( goal > PERIOD ) {
+          goal = goal - PERIOD;
+        }
+      }
+      else {
+        goal = n1_timer.getRemaining() + (PERIOD - range) / 2;
+        if ( goal > PERIOD ) {
+          goal = goal - PERIOD;
+        }
+      }
     }
 
-    if ( range < (PERIOD / 2) ) {
-      // let's go between...
-      // set my timer ALPHA(95%) of the way towards the goal
-      uint16_t goalTime = ( fireTimer.getRemaining() * (100 - ALPHA) + (range / 2) * ALPHA ) / 100;
-      fireTimer.set(goalTime);
-    }
-    else {
-      // let's go between...
-      // set my timer ALPHA(95%) of the way towards the goal
-      uint16_t goalTime = ( fireTimer.getRemaining() * (100 - ALPHA) + ((PERIOD - range) / 2) * ALPHA ) / 100;
-      fireTimer.set(goalTime);
-    }
+    // let's go between...
+    // set my timer ALPHA(95%) of the way towards the goal
+    uint16_t goalTime = ( fireTimer.getRemaining() * (100 - ALPHA) + (goal * ALPHA ) ) / 100;
+    fireTimer.set(goalTime);
   }
-
 }
