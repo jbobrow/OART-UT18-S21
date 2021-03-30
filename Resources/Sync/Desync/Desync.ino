@@ -1,7 +1,12 @@
 /*
-   Allow a ring of Blinks to create a continuous spectrum
+   WORK IN PROGRESS
+   
+   GOAL: Allow a ring of Blinks to create a continuous spectrum
    based on this Desync algorithm published by Harvard
    https://dash.harvard.edu/bitstream/handle/1/25680331/tr-18-06.pdf?sequence=1&isAllowed=y
+
+   CURRENT STATE:
+   Uses only local information and does not arrive at a continuous spectrum..
 */
 
 #define PERIOD 3000 // 3 second period
@@ -114,7 +119,7 @@ void chaseGoal() {
     uint16_t range;
     uint16_t goal;
 
-    // n2 just fired
+    // n2 more recently fired
     if ( (n2_timer.getRemaining() - n1_timer.getRemaining()) > 0 ) {
       range = n2_timer.getRemaining() - n1_timer.getRemaining();
       if ( range < (PERIOD / 2) ) {
@@ -131,7 +136,7 @@ void chaseGoal() {
       }
 
     }
-    // n1 just fired
+    // n1 more recently fired
     else {
       range = n1_timer.getRemaining() - n2_timer.getRemaining();
       if ( range < (PERIOD / 2) ) {
