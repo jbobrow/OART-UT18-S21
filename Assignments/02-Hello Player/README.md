@@ -3,6 +3,11 @@
 ### Assignment
 This weeks exercise is to create a "one-button" game using time as a core mechanic of the game. Recall elements of play from playground games that can be incorporated here, remember that the Blink is just a game piece and that it can be used to facilitate play.
 
+__Tutorials:__
+1. [Basic Display](https://forum.move38.com/t/basic-display-tutorial/290)
+2. [Basic Time](https://forum.move38.com/t/basic-time-functions/303)
+3. [Button Inputs](https://forum.move38.com/t/button-inputs-tutorial/288)
+
 ### Resources
 [Video tutorial on game states](https://youtu.be/bjGOGW66zGE)
 
