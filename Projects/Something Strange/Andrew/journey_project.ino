@@ -18,7 +18,8 @@ byte mode;
 void setup() {
   // put your setup code here, to run once:
   randomize();
-  mode = START;
+
+     mode = START;
 }
 
 void loop() {
@@ -45,7 +46,9 @@ void startLoop()
    if(buttonMultiClicked())
     {
       setColor(RED); //designate the target
+      mode = GOAL;
     } 
+ 
    if(buttonDoubleClicked() )
    {
       mode = INPUT; //starts the game
@@ -54,29 +57,23 @@ void startLoop()
 
 void goalLoop()
 {
-   
+    if(!isAlone())
+    {
+      setColor(BLUE); //win anim here
+    }
 }
 
 void inputLoop()
 {
-  if (buttonPressed()) {
-  setValueSentOnAllFaces(1);
-
-  FOREACH_FACE(f)
-  {
-    if (!isValueReceivedOnFaceExpired(f))
-    {
-    if(getLastValueReceivedOnFace(f) == 1)
-    {
-        while (index == prev_index) {
+  if (buttonPressed() || buttonDoubleClicked()) { //DON'T KNOW HOW TO SEPERATE SINGLE CLICK FROM DOUBLE!
+    // choose an index that is different from the previous index
+    while (index == prev_index) {
       index = random(5);
-    }
     }
     faceBri[index] = 255;
     prev_index = index;
   }
-    }
-  }
+
 
   if (fadeTimer.isExpired()) {
 
@@ -91,6 +88,6 @@ void inputLoop()
 
   // display our bri
   FOREACH_FACE(f) {
-    setColorOnFace(dim(WHITE, faceBri[f]), f);
+    setColorOnFace(dim(ORANGE, faceBri[f]), f);
   }
 }
