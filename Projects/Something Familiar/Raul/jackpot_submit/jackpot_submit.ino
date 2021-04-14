@@ -5,23 +5,23 @@ byte signalState = INERT;
 enum gameModes {SELECT_TEAMS, JACKPOT_SELECT, GAME, JACKPOT_WIN, TIME_UP};//these modes will simply be different colors
 byte gameMode = SELECT_TEAMS;//the default mode when the game begins
 
-bool modeEnter = false;
 
 // team select
 Color teamColors[3] = {BLUE, CYAN, ORANGE};
-byte color;
-bool displayWhite = true;
+byte color = 0;
 
 //jackpot selection
 bool jackpot = false;
 byte pointValue;
 
+#define NO_FACE 255
+
 //gameplay
 Timer gameTimer;
-#define GAME_DURATION 120000
+#define GAME_DURATION 10000
 bool isThrower = false;
 bool isSpinning = true;
-int receivedFive = -1;
+int throwerAttachPosition = NO_FACE;
 int jackpotFacePosition = 0;
 int twoPointFacePosition = 0;
 int onePointFacePosition = 0;
@@ -54,13 +54,13 @@ void loop() {
   // The following is loops for each of our game states
   switch (gameMode) {
     case SELECT_TEAMS:
-      mode1Loop();
+      selectTeamLoop();
       break;
     case JACKPOT_SELECT:
-      mode2Loop();
+      selectJackpotLoop();
       break;
     case GAME:
-      mode3Loop();
+      gameLoop();
       break;
     case JACKPOT_WIN:
       jackpotWinLoop();
@@ -74,12 +74,17 @@ void loop() {
   // share both signalState (i.e. when to change) and the game mode
   byte sendData = (isThrower << 4) + (signalState << 2) + (gameMode);
   setValueSentOnAllFaces(sendData);
+
+  // clear all button presses if not used
+  buttonSingleClicked();
+  buttonDoubleClicked();
+  buttonMultiClicked();
 }
 
 /*
    Mode 1-team select
 */
-void mode1Loop() {
+void selectTeamLoop() {
   //change mode
   if (buttonDoubleClicked()) {
     changeMode(JACKPOT_SELECT);
@@ -88,58 +93,49 @@ void mode1Loop() {
   // change back to a blank slate if accidentaly clicked
   if (buttonMultiClicked())
   {
-    displayWhite = true;
     isThrower = false;
-  }
-
-  //blank slate
-  if (displayWhite == true)
-  {
-    setColor(WHITE);
   }
 
   //set up a team blink
   if (buttonSingleClicked())
   {
-    displayWhite = false;
     color = (color + 1) % 3;
-    setColor(teamColors[color]);
     isThrower = true;
   }
-  if (isThrower == true)
-  {
-    setValueSentOnAllFaces(5);
-  }
-    if (gameTimer.isExpired() )
-  {
-    changeMode(TIME_UP);
-  }
 
+  // display states
+  if (isThrower) {
+    setColor(teamColors[color]);
+  }
+  else {
+    // display white if not a thrower and in Mode 1
+    setColor(WHITE);
+  }
 }
 
 /*
    Mode 2- jackpot select
 */
-void mode2Loop() {
+void selectJackpotLoop() {
 
   if (isThrower == false)
   {
     setColor(OFF);
-  }
 
-  //set the jackpot blink
-  if (buttonSingleClicked())
-  {
-    jackpot = !jackpot; // toggles jackpot on and off
-  }
-  if (jackpot == true)
-  {
-    setColorOnFace(YELLOW, (millis() / 250) % 6);
+    // only allow setting jackpots on spinners
+    //set the jackpot blink
+    if (buttonSingleClicked())
+    {
+      jackpot = !jackpot; // toggles jackpot on and off
+    }
+    if (jackpot == true)
+    {
+      setColorOnFace(YELLOW, (millis() / 250) % 6);
+    }
   }
 
   //change mode to game play
   if (buttonDoubleClicked()) {
-    modeEnter = true;
     changeMode(GAME);
   }
 
@@ -149,24 +145,15 @@ void mode2Loop() {
 /*
    Mode 3- actual gameplay
 */
-void mode3Loop() {
-  //start the timer
-
-  if (modeEnter == false)
-  {
-    modeEnter = true;
-    gameTimer.never();
-    gameTimer.set(GAME_DURATION);
-  }
+void gameLoop() {
+  //Timer started in changeMode
 
   //implement thrower status
 
   if (isThrower == true)
   {
-    setValueSentOnAllFaces(5);
     setColor(teamColors[color]);
     gameTimer.never();
-
   }
 
   //display the arrangement
@@ -207,22 +194,22 @@ void mode3Loop() {
   //check attatchments
   if (isThrower == false)
   {
-    //if its not a thrower, reset its received 5 value before checking
-    receivedFive = -1;
+    //if its not a thrower, reset its had a thrower attached to a face
+    throwerAttachPosition = NO_FACE;
 
     FOREACH_FACE(f)
     {
-      if (!isValueReceivedOnFaceExpired(f)) //if I have a neighbor and it send 5
+      if (!isValueReceivedOnFaceExpired(f)) //if I have a neighbor and it is a thrower
       {
         if (getThrowerStatus(getLastValueReceivedOnFace(f))) { // if my neighbor is a thrower
-          //if i have received a value of 5 on any face, log that in received 5
-          receivedFive = f;
+          // record the position of the throwers attachment
+          throwerAttachPosition = f;
         }
       }
     }
 
-    //if a received 5 value has been logged, stop the spinning of that blink
-    if (receivedFive >= 0)
+    //if a thrower has been attached, stop the spinning of that blink
+    if (throwerAttachPosition != NO_FACE)
     {
       //stop spinning
       isSpinning = false;
@@ -240,19 +227,18 @@ void mode3Loop() {
     //and its not spinning
     if (isSpinning == false)
     {
-      if (receivedFive == jackpotFacePosition && jackpot == true)
+      if (throwerAttachPosition == jackpotFacePosition && jackpot == true)
       {
         //send to jackpot win
-        gameTimer.never();
         changeMode(JACKPOT_WIN);
       }
       //send to whichever type of blink its connected to (2 pt or 1 pt)
-      if (receivedFive == twoPointFacePosition && pointValue == 1 && jackpot == false)
+      if (throwerAttachPosition == twoPointFacePosition && pointValue == 1 && jackpot == false)
       {
         setColor(GREEN);
         gameTimer.never();
       }
-      if (receivedFive == onePointFacePosition && pointValue == 0 && jackpot == false)
+      if (throwerAttachPosition == onePointFacePosition && pointValue == 0 && jackpot == false)
       {
         setColor(GREEN);
         gameTimer.never();
@@ -275,12 +261,12 @@ void mode3Loop() {
 
 }
 
-void jackpotWinLoop (void)
+void jackpotWinLoop ()
 {
   if (isThrower == false)
   {
     setColor(YELLOW);
-    jackpot = false;
+    //jackpot = false;
   }
   if (buttonSingleClicked())
   {
@@ -288,7 +274,7 @@ void jackpotWinLoop (void)
   }
 }
 
-void timeUpLoop (void)
+void timeUpLoop ()
 {
   setColor(RED);
   if (buttonSingleClicked())
@@ -317,13 +303,7 @@ void changeMode( byte mode ) {
   }
   else if (gameMode == GAME)
   {
-    if (modeEnter == true)
-    {
-      gameTimer.never();
-    }
-    
     gameTimer.set(GAME_DURATION); // start a game timer
-    modeEnter = false;
   }
   else if (gameMode == TIME_UP)
   {
@@ -348,8 +328,8 @@ void inertLoop() {
   FOREACH_FACE(f) {
     if (!isValueReceivedOnFaceExpired(f)) {//a neighbor!
       if (getSignalState(getLastValueReceivedOnFace(f)) == GO) {//a neighbor saying GO!
-        signalState = GO;
-        gameMode = getGameMode(getLastValueReceivedOnFace(f));
+        byte neighborGameMode = getGameMode(getLastValueReceivedOnFace(f));
+        changeMode(neighborGameMode);
       }
     }
   }
