@@ -295,11 +295,9 @@ void changeMode( byte mode ) {
   signalState = GO; // signal my neighbors
   if (gameMode == SELECT_TEAMS) //what the timer should be in each game state
   {
-    gameTimer.never(); // set the game timer to never expire
   }
   else if (gameMode == JACKPOT_SELECT)
   {
-    gameTimer.never(); // set the game timer to never expire
   }
   else if (gameMode == GAME)
   {
@@ -307,7 +305,7 @@ void changeMode( byte mode ) {
   }
   else if (gameMode == TIME_UP)
   {
-    gameTimer.never(); //end just to be sure
+    gameTimer.set(0); //end just to be sure
   }
   else if (gameMode == JACKPOT_WIN)
   {
