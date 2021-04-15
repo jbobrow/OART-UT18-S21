@@ -37,9 +37,11 @@ The game is over when you reach the target blink and connect it to your compass.
 
 ## Process
 - Inspiration
+
 Red Light Green Light. Journey. Trying to use blinks to capture a movement game. 
 
 - Design Process
+
 Started knowing I wanted to do something with movement. Thought of red light green light in my sleep and thought that would be a good concept to explore. This game can be played solo and have the player select how many steps they want to take however. 
 Opted for a random direction each click because the RNG element adds uncertainty and excitement to every click. 
 
