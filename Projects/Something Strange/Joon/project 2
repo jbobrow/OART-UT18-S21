@@ -9,6 +9,9 @@ int keyvalue;
 int myvalue;
 bool answer = false;
 int counter = 1;
+int masterface;
+int returnmaster;
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -24,14 +27,22 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   // SPINNY IDLE
-  if (game_state == 0)
+  if( dataReceived == 20)
   {
+  game_state = 0;
+  returnmaster = GetMasterFace();
+          setValueSentOnFace(0, masterface);
+   }
+          
+  if (game_state == 0)
+  { 
+    game_state = 0;
     setColor(makeColorRGB(255, 255, 10));
     DrawBaskets();
     if (!IsBasket())
-    {
+    { 
       CheckValueReceived();
-      if (dataReceived != 7)
+      if (dataReceived != 7 )
       {
         game_state = 2;
       }
@@ -82,7 +93,8 @@ void loop() {
 
 
     }
-    zzTimer.set(1000);
+    zzTimer.set(2000);
+    pressure_time.set(5000);
     game_state = 3;
 
   }
@@ -93,7 +105,7 @@ void loop() {
     {
       if (!IsBasket())
       {
-        //setColor(OFF);
+        setColor(OFF);
 
         game_state = 4;
 
@@ -108,9 +120,11 @@ void loop() {
     }
   }
   if (game_state == 4)
-  {
+  { 
+    
+    
     CheckValueReceived();
-    if (!IsBasket())
+    if (!IsBasket() && ! pressure_time.isExpired())
     {
       keyvalue = dataReceived - 7;
 
@@ -119,22 +133,63 @@ void loop() {
         if (myvalue == keyvalue)
         {
           setColor(GREEN);
-          game_state = 0;
-          SendData(0);
-          CheckValueReceived();
+          //when you get the answer right, tell the master blink to send out 0 to all faces
+          masterface = GetMasterFace();
+          setValueSentOnFace(30, masterface);
+
 
 
         }
         if (myvalue != keyvalue)
         {
           setColor(RED);
+           
         }
+        
       }
 
-
     }
+     
+    if ( pressure_time.isExpired() )
+    {
+       masterface = GetMasterFace();
+          setValueSentOnFace(30, masterface);
+    }
+      
 
 
+    
+
+
+  }
+  if (getLastValueReceivedOnFace(0) == 30)
+  { game_state = 0;
+    setColor(WHITE);
+    SendData(20);
+  }
+  if (getLastValueReceivedOnFace(1) == 30)
+  { game_state = 0;
+    setColor(WHITE);
+    SendData(20);
+  }
+  if (getLastValueReceivedOnFace(2) == 30)
+  {game_state = 0;
+    setColor(WHITE);
+    SendData(20);
+  }
+  if (getLastValueReceivedOnFace(3) == 30)
+  {game_state = 0;
+    setColor(WHITE);
+    SendData(20);
+  }
+  if (getLastValueReceivedOnFace(4) == 30)
+  {game_state = 0;
+    setColor(WHITE);
+    SendData(20);
+  }if (getLastValueReceivedOnFace(5) == 30)
+  {game_state = 0;
+    setColor(WHITE);
+    SendData(20);
   }
 
 
@@ -144,6 +199,27 @@ void loop() {
 
 
 }
+byte GetMasterFace()
+{
+  FOREACH_FACE(f) {
+    // loop through all of them
+    if (!isValueReceivedOnFaceExpired(f)) {
+      // if my neighbor is present, get their value
+
+      byte neighborVal = getLastValueReceivedOnFace(f); // listen
+
+      if ( neighborVal != 0)
+      {
+        //we found the master blink
+        // only true when the master sends number except 0
+        return f;
+      }
+    }
+
+
+  }
+}
+
 
 void SetBlinkColor(int _n)
 {
