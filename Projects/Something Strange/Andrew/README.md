@@ -25,6 +25,7 @@ Principle:
 4. **Connect two blinks together** and **double click one of them** to activate its compass property. 
 <img width="217" alt="Screen Shot 2021-04-14 at 10 57 42 PM" src="https://user-images.githubusercontent.com/78987969/114807689-db8ab580-9d74-11eb-9f98-39797e9ffa36.png">
 This is how the blinks should be held. Click the blink on the bottom (one with red outline in this case)
+
 5. Now, either single or double click the blink in your hand to determine which direction to take a step in. 1 click = 1 step. 2 clicks = 2 steps. 
 6. **Long press the TARGET blink to reset its properties and startover. Or simply disconnect it and start over**
 
