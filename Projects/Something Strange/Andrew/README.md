@@ -19,8 +19,7 @@ Principle:
 
 ### Setup
 
-<img width="346" alt="Screen Shot 2021-04-14 at 11 17 37 PM" src="https://user-images.githubusercontent.com/78987969/114809148-a6339700-9d77-11eb-9b97-430e163d0b40.png">
-2d representation of what a final space may look like. 
+<img width="346" alt="Screen Shot 2021-04-14 at 11 17 37 PM" src="https://user-images.githubusercontent.com/78987969/114809148-a6339700-9d77-11eb-9b97-430e163d0b40.png"> 2d representation of what a final space may look like. 
 
 
 1. Begin with all the blinks not connected.
