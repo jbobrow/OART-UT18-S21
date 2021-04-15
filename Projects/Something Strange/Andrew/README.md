@@ -23,6 +23,7 @@ Principle:
 3. Place the target blink somewhere across the space if you are solo, or, designate someone to place the target blink somewhere. PLACE THIS BLINK VERTICALLY. 
 <img width="416" alt="Screen Shot 2021-04-09 at 2 26 18 PM" src="https://user-images.githubusercontent.com/78987969/114224818-919e6b80-993f-11eb-9cd4-9e531515d6b3.png">
 4. Single click one or two solo blinks. They will turn **green** place these in between you and the target somewhere. 
+
 5. **Connect two blinks together** and **double click one of them** to activate its compass property. 
 <img width="217" alt="Screen Shot 2021-04-14 at 10 57 42 PM" src="https://user-images.githubusercontent.com/78987969/114807689-db8ab580-9d74-11eb-9f98-39797e9ffa36.png">
 This is how the blinks should be held. Click the blink on the bottom (one with red outline in this case)
