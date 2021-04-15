@@ -11,15 +11,20 @@ Principle:
 
 ## Game Instructions
 1. Place the target blinks across the space from you. 
-2. If you CONNECT a buff blinks (green face), you get one or two free steps (depending on the number of steps you hit it with). _Example: if I double clicked and then connected with the buff blink, I now get two free steps._
-3. You cannot go backwards. Only 5/6 faces require movement. 
-4. 1 click of compass = 1 step. 2 clicks = 2 steps. 
-5. Try to reach the target blinks. When you do, **connect the compass to the target.**
-6. If you run into something you have to start over. 
+2. Decide how many supplement blinks you want in between you and the target. You can have 0, 1, or 2. Single click the blink to randomly assign it to BUFF (GREEN) or HAZARD (RED). 
+3. If you CONNECT a buff blinks (green face), you get one or two free steps (depending on the number of steps you hit it with). _Example: if I double clicked and then connected with the buff blink, I now get two free steps._ If you connect a HAZARD blinks, you take steps away from the target. 
+4. You cannot go backwards. Only 5/6 faces require movement. 
+5. 1 click of compass = 1 step. 2 clicks = 2 steps. 
+6. Try to reach the target blinks. When you do, **connect the compass to the target.**
+7. If you run into something you have to start over. 
+8. LONG PRESS ANY BLINK TO RESET IT. 
 
 ### Setup
 
-<img width="346" alt="Screen Shot 2021-04-14 at 11 17 37 PM" src="https://user-images.githubusercontent.com/78987969/114809148-a6339700-9d77-11eb-9b97-430e163d0b40.png"> 2d representation of what a final space may look like. 
+
+https://user-images.githubusercontent.com/78987969/114810614-746fff80-9d7a-11eb-9e70-a6c82eaf8aa3.mp4
+
+
 
 
 1. Begin with all the blinks not connected.
