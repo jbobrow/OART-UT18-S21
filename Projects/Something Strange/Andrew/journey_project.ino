@@ -61,12 +61,20 @@ void goalLoop()
     {
       setColor(BLUE); //win anim here
     }
+    if(buttonLongPressed()) //RESETS  THE GAME
+    {
+      setColor(OFF);
+      mode = START; 
+    }
 }
 
 void inputLoop()
 {
-  if (buttonPressed() || buttonDoubleClicked()) { //DON'T KNOW HOW TO SEPERATE SINGLE CLICK FROM DOUBLE!
+  if (buttonSingleClicked() || buttonDoubleClicked()) { 
     // choose an index that is different from the previous index
+   
+    //When clicked, send value to neighbor. After, reset value so can do again.
+    
     while (index == prev_index) {
       index = random(5);
     }
@@ -74,6 +82,7 @@ void inputLoop()
     prev_index = index;
   }
 
+  //send value 
 
   if (fadeTimer.isExpired()) {
 
