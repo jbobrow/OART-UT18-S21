@@ -11,7 +11,7 @@ Principle:
 
 ## Game Instructions
 1. Place the target blinks across the space from you. 
-2. Place one or two buff blinks in between you and the target (these cannot be moved after).
+2. If you CONNECT a buff blinks (green face), you get one or two free steps (depending on the number of steps you hit it with). _Example: if I double clicked and then connected with the buff blink, I now get two free steps._
 3. You cannot go backwards. Only 5/6 faces require movement. 
 4. 1 click of compass = 1 step. 2 clicks = 2 steps. 
 5. Try to reach the target blinks. When you do, **connect the compass to the target.**
@@ -22,12 +22,13 @@ Principle:
 2. **Triple click one of the blinks** to designate it as the target. 
 3. Place the target blink somewhere across the space if you are solo, or, designate someone to place the target blink somewhere. PLACE THIS BLINK VERTICALLY. 
 <img width="416" alt="Screen Shot 2021-04-09 at 2 26 18 PM" src="https://user-images.githubusercontent.com/78987969/114224818-919e6b80-993f-11eb-9cd4-9e531515d6b3.png">
-4. **Connect two blinks together** and **double click one of them** to activate its compass property. 
+4. Single click one or two solo blinks. They will turn **green** place these in between you and the target somewhere. 
+5. **Connect two blinks together** and **double click one of them** to activate its compass property. 
 <img width="217" alt="Screen Shot 2021-04-14 at 10 57 42 PM" src="https://user-images.githubusercontent.com/78987969/114807689-db8ab580-9d74-11eb-9f98-39797e9ffa36.png">
 This is how the blinks should be held. Click the blink on the bottom (one with red outline in this case)
 
-5. Now, either single or double click the blink in your hand to determine which direction to take a step in. 1 click = 1 step. 2 clicks = 2 steps. 
-6. **Long press the TARGET blink to reset its properties and startover. Or simply disconnect it and start over**
+6. Now, either single or double click the blink in your hand to determine which direction to take a step in. 1 click = 1 step. 2 clicks = 2 steps. 
+7. **Long press the TARGET blink to reset its properties and startover. Or simply disconnect it and start over**
 
 ### Gameplay
 1. Click or double click your compass and try to get to the target blink in as little time as possible. 
