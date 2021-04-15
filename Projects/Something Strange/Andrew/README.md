@@ -22,9 +22,7 @@ Principle:
 ### Setup
 
 
-https://user-images.githubusercontent.com/78987969/114810614-746fff80-9d7a-11eb-9e70-a6c82eaf8aa3.mp4
-
-
+https://user-images.githubusercontent.com/78987969/114810614-746fff80-9d7a-11eb-9e70-a6c82eaf8aa3.mp4 = SETUP VIDEO
 
 
 1. Begin with all the blinks not connected.
