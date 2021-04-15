@@ -14,7 +14,7 @@ Principle:
 2. Place one or two buff blinks in between you and the target (these cannot be moved after).
 3. You cannot go backwards. Only 5/6 faces require movement. 
 4. 1 click of compass = 1 step. 2 clicks = 2 steps. 
-5. Try to reach the target blinks. When you do, **connect the compass to the target. **
+5. Try to reach the target blinks. When you do, **connect the compass to the target.**
 6. If you run into something you have to start over. 
 
 ### Setup
