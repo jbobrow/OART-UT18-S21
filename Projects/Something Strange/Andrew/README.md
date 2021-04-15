@@ -22,6 +22,7 @@ Principle:
 <img width="346" alt="Screen Shot 2021-04-14 at 11 17 37 PM" src="https://user-images.githubusercontent.com/78987969/114809148-a6339700-9d77-11eb-9b97-430e163d0b40.png">
 2d representation of what a final space may look like. 
 
+
 1. Begin with all the blinks not connected.
 2. **Triple click one of the blinks** to designate it as the target. 
 3. Place the target blink somewhere across the space if you are solo, or, designate someone to place the target blink somewhere. PLACE THIS BLINK VERTICALLY. 
