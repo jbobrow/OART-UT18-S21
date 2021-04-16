@@ -20,7 +20,8 @@ difficult yet simple game play using similar concept being time and color. Chall
 6.If you get the answer right, the blink will shine green and reset.
 7.If you don't get the answer right, the blink will shine red and reset.
 8.if you take more than 3 second, the stage automatically fails and the game will reset.
-9.time yourself and see how many stage you can pass. Correct answer counts as +1 point, a fail counts as -1 point, taking more than 3 second and being reset counts as 0 point.
+9.IMPORTANT RULE : IF THE MIDDLE BLINK DIDN'T SHOW THE COLOR OUT OF THE 6 BLINK, LET IT RESET. (a little rng factor here)
+10.time yourself and see how many stage you can pass. Correct answer counts as +1 point, a fail counts as -1 point, taking more than 3 second and being reset counts as 0 point.
 ### Setup
 ![image](https://user-images.githubusercontent.com/79310685/114896561-6b029800-9e4b-11eb-8953-1ec34c45b4d6.png)
 
