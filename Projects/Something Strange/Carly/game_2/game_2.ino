@@ -7,13 +7,32 @@ byte gameMode = MODE1;//the default mode when the game begins
 Timer gameTimer;
 #define GAME_DURATION 6000 // 6 seconds
 
+Timer starTimer;
+int waitDuration = (1+ random(5) ) * 1000; // gives a value of 1000, 2000, ...., or 6000
+
 bool star = false;
+
+//pattern stuff
+byte pattern1[4] = {1, 2, 3, 4};
+
+byte id;
+
+byte step = 0;
+
+// index
+byte index = 0;
+
+//pattern timer
+Timer patternTimer;
+Timer stepTimer;
+
 
 // sparkle colors
 Color autoColors[5] = {OFF, makeColorRGB(255, 0, 128), makeColorRGB(255, 255, 0), makeColorRGB(0, 128, 255), WHITE};
 
 void setup() {
-
+  randomize();
+  id = 1 + random(6);
 }
 
 void loop() {
@@ -59,6 +78,10 @@ void mode1Loop() {
   // press to start
   if (buttonPressed()) {
     changeMode(MODE2);  // change game mode on all Blinks
+    patternTimer.set(6000);
+    step = 0;
+    stepTimer.set(1000);
+
   }
 
   setColor(autoColors[random(3) + 1]);  //creates sparkle lights
@@ -71,20 +94,42 @@ void mode2Loop() {
   byte timeRemaining = map(gameTimer.getRemaining(), 0, GAME_DURATION, 0, 6);
 
   // display how much time is left in the game (0-6 LEDs on)
-  FOREACH_FACE(f) {
-    if (f < timeRemaining) {
-      setColor(WHITE);
-      star = true;
-    }
-  
-    
-  }
+//  FOREACH_FACE(f) {
+//    if (starTimer.set) {
+//      setColor(WHITE);
+//      star = true;
+//    }
+//  
+//    
+//  }
 
 /*  if (gameTimer.isExpired()) {
     changeMode(MODE3);
   } */
+
+  if(stepTimer.isExpired()) {
+    step++;
+    stepTimer.set(1000);
+
+    if(step > 5) {
+      step = 0;
+    }
+  }
+
+  
+ if(pattern1[step] == id ) {
+    // light up when my ID is active
+   setColor(WHITE); 
+   star = true;
+  }
+  
+  else {
+    setColor(OFF);
+    star = false;
+  } 
   
   if ( (star = false) && (buttonPressed()) ) { //if guessed wrong, switch to to medium game mode
+    setColor(RED);
     changeMode(MODE3);
   }
 
@@ -97,6 +142,7 @@ void mode3Loop() {
   
   if ( (star = false) && (buttonPressed()) ) { //if guessed wrong, switch to easist game mode
     changeMode(MODE4);
+    setColor(RED);
   }
   
   if ( (star = true) && (buttonPressed()) )  { //if guessed right, switch back to hardest game mode
