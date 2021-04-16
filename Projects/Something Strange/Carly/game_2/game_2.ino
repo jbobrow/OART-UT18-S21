@@ -14,6 +14,8 @@ bool star = false;
 
 //pattern stuff
 byte pattern1[4] = {1, 2, 3, 4};
+byte pattern2[4] = {4, 3, 2, 1};
+byte pattern3[4] = {3, 2, 4, 1};
 
 byte id;
 
@@ -80,7 +82,7 @@ void mode1Loop() {
     changeMode(MODE2);  // change game mode on all Blinks
     patternTimer.set(6000);
     step = 0;
-    stepTimer.set(1000);
+    stepTimer.set(500);
 
   }
 
@@ -109,7 +111,7 @@ void mode2Loop() {
 
   if(stepTimer.isExpired()) {
     step++;
-    stepTimer.set(1000);
+    stepTimer.set(700);
 
     if(step > 5) {
       step = 0;
@@ -128,7 +130,7 @@ void mode2Loop() {
     star = false;
   } 
   
-  if ( (star = false) && (buttonPressed()) ) { //if guessed wrong, switch to to medium game mode
+  if ( (star == false) && (buttonPressed()) ) { //if guessed wrong, switch to to medium game mode
     setColor(RED);
     changeMode(MODE3);
   }
@@ -140,20 +142,61 @@ void mode2Loop() {
 
 void mode3Loop() {
   
-  if ( (star = false) && (buttonPressed()) ) { //if guessed wrong, switch to easist game mode
+  if(stepTimer.isExpired()) {
+    step++;
+    stepTimer.set(1000);
+
+    if(step > 5) {
+      step = 0;
+    }
+  }
+  
+  if(pattern2[step] == id ) {
+    // light up when my ID is active
+   setColor(WHITE); 
+   star = true;
+  }
+  
+  else {
+    setColor(OFF);
+    star = false;
+  } 
+  
+  if ( (star == false) && (buttonPressed()) ) { //if guessed wrong, switch to easist game mode
     changeMode(MODE4);
     setColor(RED);
   }
   
-  if ( (star = true) && (buttonPressed()) )  { //if guessed right, switch back to hardest game mode
+  if ( (star == true) && (buttonPressed()) )  { //if guessed right, switch back to hardest game mode
     changeMode(MODE2);
   }
 
-  setColor(BLUE);
+  
 }
 
 void mode4Loop() {
-  if ( (star = true) && (buttonPressed()) )  { //if guessed right, switch back to medium game mode
+  
+  if(stepTimer.isExpired()) {
+    step++;
+    stepTimer.set(2000);
+
+    if(step > 5) {
+      step = 0;
+    }
+  }
+  
+  if(pattern3[step] == id ) {
+    // light up when my ID is active
+   setColor(WHITE); 
+   star = true;
+  }
+  
+  else {
+    setColor(OFF);
+    star = false;
+  } 
+  
+  if ( (star == true) && (buttonPressed()) )  { //if guessed right, switch back to medium game mode
     changeMode(MODE3);
   }
 }
