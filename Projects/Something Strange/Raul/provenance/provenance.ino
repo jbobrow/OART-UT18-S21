@@ -16,7 +16,7 @@
 enum signalStates {INERT, GO, RESOLVE};
 byte signalState = INERT;
 
-enum gameModes {GAME, FAIL, SUCCESS};//these modes will simply be different colors
+enum gameModes {GAME, FAIL, SUCCESS};//The modes of the game
 byte gameMode = GAME;//the default mode when the game begins
 
 //game stuff
@@ -24,7 +24,7 @@ byte gameMode = GAME;//the default mode when the game begins
 //________
 //fade timers
 Timer dimTimer;
-#define DIM_TIME 10000
+#define DIM_TIME 8500
 //_______
 //shape recognition
 int neighborCount = 0;
@@ -39,17 +39,9 @@ int colorCheck = 3;
 
 //_____
 
-
-
-//fail and success variables
-int clicks = 0;
-int between = 10;
-Timer fadeTimer;
-bool turnOff = false;
-
-
-
 void setup() {
+
+  //set the dim timer and randomize the color to be set to
   dimTimer.set(DIM_TIME);
   randomize();
   colorCheck = random(3) + 1;
@@ -85,7 +77,7 @@ void loop() {
   }
 
   // communicate with neighbors
-  // share both signalState (i.e. when to change) and the game mode
+  // share both signalState (i.e. when to change) and the game mode and the color 
   byte sendData = (getColor() << 4) + (signalState << 2) + (gameMode);
   setValueSentOnAllFaces(sendData);
 }
@@ -95,10 +87,10 @@ void loop() {
 */
 void gameLoop() {
 
-
+  //get the remaining time on the dim timer
   int fadeTime = dimTimer.getRemaining();
 
-  //map the brightness in order to use it
+  //mape in order to use it
   byte brightness = map(fadeTime, 0, DIM_TIME, 0, 255);
 
   //if I single click a button, restore the button
@@ -121,7 +113,7 @@ void gameLoop() {
     }
   }
 
-  //if I have 5 neighbors and we aren't changing anything, I win
+  //if I have 5 neighbors and we aren't changing anything and we are the right color, I win
   if (neighborCount == 5 && signalState == INERT && colorCheck == cycleCount)
   {
     changeMode(SUCCESS);
@@ -134,6 +126,7 @@ void gameLoop() {
     sendColor = true;
     if (increment == true)
     {
+      //increment in the cycle count and adjust it so it can fit inside the array
       cycleCount++;
       cycleCount = (cycleCount % 3) + 1;
       increment = false;
@@ -141,16 +134,20 @@ void gameLoop() {
   }
   else
   {
+    //if I'm in a cluster, I gain the ability to increment
     increment = true;
   }
 
   //display logic
+
+  //if the blink is completely dark, the player loses
   if (dimTimer.isExpired() == true)
   {
     changeMode(FAIL);
   }
   else
   {
+    //display and dim the color that I am 
     setColor(dim(cycleColors[cycleCount], brightness));
   }
 }
@@ -192,6 +189,8 @@ void successLoop() {
    pass this a game mode to switch to
 */
 void changeMode( byte mode ) {
+
+  //if the game I am in is not GAME and I received orders to change to that, re-randomize and reset the dimming
   if(mode == GAME && gameMode != GAME)
   {
     dimTimer.set(DIM_TIME);
@@ -201,7 +200,7 @@ void changeMode( byte mode ) {
   gameMode = mode;  // change my own mode
   signalState = GO; // signal my neighbors
 
-  // handle any items that a game should do once when it changes
+  //if i'm in success or fail, don't change the dim timer
   if (gameMode == FAIL) {
     dimTimer.never();
   }
@@ -213,6 +212,7 @@ void changeMode( byte mode ) {
 
 void changeColor (byte color)
 {
+  //set my color to the cycleCount and tell my neighbors to go
   cycleCount = color;
   signalState = GO; // signal my neighbors
   //set my color
@@ -231,6 +231,8 @@ void inertLoop() {
       if (getSignalState(getLastValueReceivedOnFace(f)) == GO) {//a neighbor saying GO!
         byte neighborGameMode = getGameMode(getLastValueReceivedOnFace(f));
         changeMode(neighborGameMode);
+
+        //get the color of my neighbor and change myself to that color
         byte neighborColor = getColorState(getLastValueReceivedOnFace(f));
         if (neighborColor > 0)
         {
@@ -276,6 +278,7 @@ void resolveLoop() {
 
 byte getColor(void)
 {
+  //if I can send a color or I am in go and I am not in a cluster, send go. Regardless return my cyclecount to be used
   if (sendColor || signalState == GO)
   {
     if (!isAlone())
@@ -300,6 +303,7 @@ byte getSignalState(byte data) {
   return ((data >> 2) & 3);//returns bits C and D
 }
 
+//grab my color
 byte getColorState(byte data) {
   return ((data >> 4) & 3);//returns bits A and B
 }
