@@ -2,17 +2,11 @@ enum signalStates {READY, PATTERN, GAME};
 byte signalState = READY;
 
 enum gameModes {MODE1, MODE2, MODE3, MODE4};// game modes determining the diffuculty of the game (also includes the ready/starting mode)
-byte gameMode = MODE1;//the default mode when the game begins
-
-Timer gameTimer;
-#define GAME_DURATION 6000 // 6 seconds
-
-Timer starTimer;
-int waitDuration = (1+ random(5) ) * 1000; // gives a value of 1000, 2000, ...., or 6000
+byte gameMode = MODE1;//default ready mode when the game begins
 
 bool star = false;
 
-//pattern stuff
+//patterns for each game mode
 byte pattern1[4] = {1, 2, 3, 4};
 byte pattern2[4] = {4, 3, 2, 1};
 byte pattern3[4] = {3, 2, 4, 1};
@@ -33,7 +27,7 @@ Timer stepTimer;
 Color autoColors[5] = {OFF, makeColorRGB(255, 0, 128), makeColorRGB(255, 255, 0), makeColorRGB(0, 128, 255), WHITE};
 
 void setup() {
-  randomize();
+  randomize(); // randomizes which blinks are "stars" 
   id = 1 + random(6);
 }
 
@@ -92,23 +86,6 @@ void mode1Loop() {
 
 void mode2Loop() {
 
-  // map the time remaining from 0 - 6000 milliseconds to the value 0-6
-  byte timeRemaining = map(gameTimer.getRemaining(), 0, GAME_DURATION, 0, 6);
-
-  // display how much time is left in the game (0-6 LEDs on)
-//  FOREACH_FACE(f) {
-//    if (starTimer.set) {
-//      setColor(WHITE);
-//      star = true;
-//    }
-//  
-//    
-//  }
-
-/*  if (gameTimer.isExpired()) {
-    changeMode(MODE3);
-  } */
-
   if(stepTimer.isExpired()) {
     step++;
     stepTimer.set(700);
@@ -135,8 +112,6 @@ void mode2Loop() {
     changeMode(MODE3);
   }
 
-  // check and dump button pressed during gameplay
-  //buttonPressed();
 }
 
 
@@ -201,30 +176,15 @@ void mode4Loop() {
   }
 }
 
-/*
-   pass this a game mode to switch to
-*/
+
 void changeMode( byte mode ) {
   gameMode = mode;  // change my own mode
   signalState = PATTERN; // signal my neighbors
 
-  // handle any items that a game should do once when it changes
-  if (gameMode == MODE1) {
-    gameTimer.never(); // set the game timer to never expire
-  }
-  else if (gameMode == MODE2) {
-    gameTimer.set(GAME_DURATION); // start a game timer
-  }
-  else if (gameMode == MODE3) {
-    gameTimer.set(0); // end the game timer (just in case)
-  }
 }
 
 
-/*
-   This loop looks for a GO signalState
-   Also gets the new gameMode
-*/
+
 void readyLoop() {
  
 
@@ -239,11 +199,9 @@ void readyLoop() {
   }
 }
 
-/*
-   If all of my neighbors are in GO or RESOLVE, then I can RESOLVE
-*/
+
 void patternLoop() {
-  signalState = GAME;//I default to this at the start of the loop. Only if I see a problem does this not happen
+  signalState = GAME;
 
   //look for neighbors who have not heard the GO news
   FOREACH_FACE(f) {
@@ -255,13 +213,9 @@ void patternLoop() {
   }
 }
 
-/*
-   This loop returns me to inert once everyone around me has RESOLVED
-   Now receive the game mode
-*/
-void gameLoop() {
-  signalState = READY;//I default to this at the start of the loop. Only if I see a problem does this not happen
 
+void gameLoop() {
+  signalState = READY;
   //look for neighbors who have not moved to RESOLVE
   FOREACH_FACE(f) {
     if (!isValueReceivedOnFaceExpired(f)) {//a neighbor!
