@@ -1,6 +1,8 @@
 int state = 0;
 int aliveCount = 0;
+int deadCount = 0;
 bool aliveCell = false;
+Timer delayTimer;
 
 void setup() {
   // put your setup code here, to run once:
@@ -14,31 +16,57 @@ void loop() {
   //if I single click, cell becomes alive
   if (buttonSingleClicked())
   {
-    aliveCell = true;
-  }
-  if (state == 0)
-  {
-    //dead cell
-    setColor(OFF);
-    aliveCell = false;
-  }
-  if (state == 1 || aliveCell == true)
-  {
-    //alive cell
-    setColor(MAGENTA);
-    setValueSentOnAllFaces(3);
+    aliveCell = !aliveCell;
   }
 
-  //RULES
-
-  //counting alive neighbors
-  FOREACH_FACE(f)
+  if (delayTimer.isExpired())
   {
-    if (getLastValueReceivedOnFace(f) == 3)
+    delayTimer.set(1000);
+
+    if (state == 0 || aliveCell == false)
     {
-      aliveCount++;
+      //dead cell
+      setColor(OFF);
+      aliveCell = false;
+      setValueSentOnAllFaces(2);
     }
+    if (state == 1 || aliveCell == true)
+    {
+      //alive cell
+      setColor(MAGENTA);
+      aliveCell = true;
+      setValueSentOnAllFaces(3);
+    }
+
+    //RULES
+
+    //counting alive neighbors
+    FOREACH_FACE(f)
+    {
+      if (!isValueReceivedOnFaceExpired(f))
+      {
+        if (getLastValueReceivedOnFace(f) == 3)
+        {
+          aliveCount++;
+        }
+        if (getLastValueReceivedOnFace(f) == 2)
+        {
+          deadCount++;
+        }
+      }
+    }
+
+    aliveCheck();
+    deadCheck();
+
+
+
   }
+
+}
+
+void aliveCheck()
+{
 
   //any live cell with fewer than two live neighbors dies
 
@@ -46,16 +74,21 @@ void loop() {
   {
     state = 0;
     aliveCount = 0;
+    deadCount = 0;
   }
 
   // any live cell with 2 or 3 neighbors lives on to the next generation
 
   if (state == 1 && aliveCount == 2)
   {
+    state = 1;
     aliveCount = 0;
+    deadCount = 0;
   }
   else if (state == 1 && aliveCount == 3)
   {
+    state = 1;
+    deadCount = 0;
     aliveCount = 0;
   }
 
@@ -64,14 +97,18 @@ void loop() {
   if (state == 1 && aliveCount > 3)
   {
     state = 0;
+    deadCount = 0;
     aliveCount = 0;
   }
-  //any dead cell with exactly 3 alive neighbors becomes alive
+}
 
+void deadCheck ()
+{
+  //any dead cell with exactly 3 alive neighbors becomes alive
   if (state == 0 && aliveCount == 3)
   {
-    state = 0;
+    state = 1;
+    deadCount = 0;
     aliveCount = 0;
   }
-
 }
