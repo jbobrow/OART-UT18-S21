@@ -19,6 +19,7 @@ void loop() {
     aliveCell = !aliveCell;
   }
 
+
   if (delayTimer.isExpired())
   {
     delayTimer.set(1000);
@@ -59,7 +60,9 @@ void loop() {
     aliveCheck();
     deadCheck();
 
+    //clear button presses
 
+    buttonSingleClicked();
 
   }
 
