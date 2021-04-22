@@ -2,7 +2,7 @@
 
 Principle: 
 - Core Mechanic: Tradeoff
-- Prototype of Core Mechanic: 
+
 
 - Number of Players: 1 
 - Number of Blinks: Intended for 6, could add more
@@ -20,7 +20,7 @@ Line 6+ blinks up in a line and program the game. The game starts immediately.
 
 ### Gameplay
 
-Experiment and explore how to get to a home state. Just remember to click the blinks to restore their brightness. 
+Move blinks around and experiment with how to get to the home state (a color and an arrangement). Just remember to click the blinks to restore their brightness. 
 
 ### Win Condition
 
