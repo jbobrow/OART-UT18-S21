@@ -16,17 +16,7 @@ bool debug = false;
 
 void setup() {
   randomize();
-  
-  byte seeding = random(100);
-  if (0 <= seeding < 33) {
-    myState = RABBIT;
-  }
-  else if (33 <= seeding < 66) {
-    myState = FOX;
-  }
-  else {
-    myState = EMPTY;
-  }
+  seedFunction();
 }
 
 int memcmp(const void *s1, const void *s2, unsigned n) {
@@ -142,6 +132,10 @@ void emptyLoop() {
 
   if (myState == RABBIT && gotFox) { // our state was overwritten by a rabbit, but we had previously seen a fox
     myState = FOX;
+    gotFox = false;
+  }
+  else {
+    myState = RABBIT;
   }
 
   // FOREST FIRE EXAMPLE:
@@ -186,12 +180,9 @@ void preyLoop() {
   if (random(100) < 3) {
     myState = FIRE;
   }
-
   FOREACH_FACE(f) {
     if (!isValueReceivedOnFaceExpired(f)) {
-
       byte neighborVal = getLastValueReceivedOnFace(f);
-
       if (neighborVal == FIRE) {
         myState = FIRE;
       }
@@ -199,7 +190,6 @@ void preyLoop() {
   }
 */
 }
-
 
 void predatorLoop() {
   // as a fox, I should move to a neighboring spot if at least 1 of my neighbors is a rabbit
@@ -220,9 +210,22 @@ void predatorLoop() {
     }
   }
   // I have a percentage chance to die
-  if (random(100) < 40) {
+  if (random(100) < 20) {
     myState = EMPTY;
   }
   // FOREST FIRE EXAMPLE:
   // myState = EMPTY;
+}
+
+void seedFunction() {
+  byte seeding = random(100);
+  if (0 <= seeding < 40) {
+    myState = RABBIT;
+  }
+  else if (40 <= seeding < 80) {
+    myState = FOX;
+  }
+  else {
+    myState = EMPTY;
+  }
 }
