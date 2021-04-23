@@ -1,4 +1,8 @@
-#define STEP_DURATION 500
+/*
+ * 
+ */
+ 
+#define STEP_DURATION 1000
 Timer stepTimer;
 
 enum States {
@@ -13,6 +17,7 @@ void setup() {
   // put your setup code here, to run once:
   randomize();
   init();
+  stepTimer.set(STEP_DURATION);
 }
 
 void loop() {
