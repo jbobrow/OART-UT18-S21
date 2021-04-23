@@ -169,7 +169,7 @@ void preyLoop() {
     }
   }
   else {
-    myState = EMPTY; // we had nowhere to go, just die for now I guess?
+    myState = RABBIT; // we had nowhere to go, just stay a rabbit...? the simulation will eventually fill with rabbits in the absence of foxes so I guess this is fine...
   }
   // if I receive a fox datagram, i should turn into a fox
   FOREACH_FACE(f) {
