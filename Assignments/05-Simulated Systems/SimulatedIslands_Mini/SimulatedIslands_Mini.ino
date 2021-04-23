@@ -22,6 +22,13 @@ void setup() {
 }
 
 void loop() {
+  // click to place water
+  if(buttonSingleClicked()) {
+    FOREACH_FACE(f) {
+      myStates[f] = WATER;
+    }
+  }
+  
   // put your main code here, to run repeatedly:
   if (stepTimer.isExpired()) {
     stepTimer.set(STEP_DURATION);
