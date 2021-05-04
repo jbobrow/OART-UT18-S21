@@ -1,8 +1,7 @@
- //fully functioning epidemic! Andrew Tebbe 4/22/21
+//fully functioning epidemic! Andrew Tebbe 4/22/21
 enum State {
-  ONCE,
-  SUSCEPTIBLE,   // 1
-  IMMUNE,    // 2
+  SUSCEPTIBLE,   // 0
+  IMMUNE,    // 1
   SICK,
   RECOVERED,
   DEAD
@@ -10,32 +9,33 @@ enum State {
 
 Timer stepTimer;
 Timer sickTime;
-#define STEP_DURATION 50 //timme before code enacted
+#define STEP_DURATION 500 //timme before code enacted
 
 byte myState;
 
 void setup() {
   randomize();
-  myState = ONCE;
+  initialize();
 }
 
 void loop() {
 
-  if (buttonPressed () )
+  if (buttonSingleClicked() )
   {
     sickTime.set(2000); //STARTS THE TIMER
     myState = SICK; // START  THE SICK
     sickLoop();
   }
+  
+  if (buttonDoubleClicked()) {
+  	initialize();
+  }
 
   if (stepTimer.isExpired()) {
     stepTimer.set(STEP_DURATION);
 
-    if (myState == ONCE) {
-      onceLoop();
-    }
     // DO STUFF AS A suspect
-    else if (myState == SICK) {
+    if (myState == SICK) {
       sickLoop();  
     }
     else if (myState == SUSCEPTIBLE) {
@@ -58,7 +58,6 @@ void loop() {
 
   // display myState
   switch (myState) {
-    case ONCE: setColor(WHITE); break;
     case SUSCEPTIBLE: setColor(YELLOW); break;
     case IMMUNE: setColor(GREEN); break;
     case SICK: setColor (ORANGE); break;
@@ -67,12 +66,12 @@ void loop() {
   }
 }
 
-void onceLoop() {
+void initialize() {
 
-  if (random(100) < 80) {
+  if (random(100) < 50) {
     myState = SUSCEPTIBLE; //NUMBER OF SUSCEPTIBLE 80%
   }
-  if (random(100) < 20) {
+  else {
     myState = IMMUNE;
   } //IMMUNE 20%
 }
