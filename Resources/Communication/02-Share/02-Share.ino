@@ -45,7 +45,7 @@ void loop() {
 
   // display
   if(isPulsing) {
-    setColor( dim(WHITE, sin8_C(millis()/200)) );
+    setColor( dim(WHITE, sin8_C(millis()/20)) );
   }
   else {
     setColor( WHITE );
