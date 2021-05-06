@@ -81,36 +81,32 @@ void loop() {
 */
 void gameLoop() {
 
-  // press to start
+//_____CYCLING THROUGH AND DISPLAYING POSIBILITIES
+  // double click to cycle through the possibilities of the tiles
   if (buttonDoubleClicked())
   {
     pieceCycle++;
   }
-  if (((pieceCycle) % 3) == 0 || isGrass == true || tileState == GRASS)
+
+  //for redundancy, if these conditions are true, make sure the other is on the same page
+  if (((pieceCycle) % 3) == 0 || tileState == GRASS)
   {
-    //if these conditions are true, then become grass and not anything else
-    isGrass = true;
-    isBunny = false;
-    isFox = false;
     pieceCycle = 0;
     tileState = GRASS;
   }
 
-  if (((pieceCycle) % 3) == 1 || isBunny == true || tileState == BUNNY)
+  //for redundancy, if these conditions are true, make sure the other is on the same page
+  if (((pieceCycle) % 3) == 1 || tileState == BUNNY)
   {
     //if these conditions are true, then become bunny and not anything else
-    isGrass = false;
-    isBunny = true;
-    isFox = false;
     pieceCycle = 1;
     tileState = BUNNY;
   }
-  if (((pieceCycle) % 3) == 2 || isFox == true || tileState == FOX)
+
+  //for redundancy, if these conditions are true, make sure the other is on the same page
+  if (((pieceCycle) % 3) == 2 || tileState == FOX)
   {
     //if these conditions are true, then become a fox and not anything else
-    isGrass = false;
-    isBunny = false;
-    isFox = true;
     pieceCycle = 2;
     tileState = FOX;
   }
@@ -124,10 +120,9 @@ void gameLoop() {
 
   if (tileState == BUNNY)
   {
-    //bunny display and messaging
+    //bunny display
     setColor(dim(WHITE, 125));
     setColorOnFace(WHITE, ((millis() / 200) % 6));
-    //setValueSentOnAllFaces(3);
   }
   if (tileState == TRAIL)
   {
@@ -139,7 +134,7 @@ void gameLoop() {
     //fox display
     setColor(dim(ORANGE, 125));
     setColorOnFace(ORANGE, ((millis() / 500) % 6));
-    //setValueSentOnAllFaces(4);
+    
   }
 
   //_________ CHANGING LOGIC
@@ -162,6 +157,7 @@ void gameLoop() {
   //wipe single clicks
   buttonSingleClicked();
 
+//NON-ANIMAL TRANISTION
   if (transition)
   {
     //send a value to distinguish transition
@@ -172,21 +168,18 @@ void gameLoop() {
       //change tile [to move to] to bunny
       if (myTileState(getLastValueReceivedOnFace(f)) == BUNNY && tileState == GRASS && !isValueReceivedOnFaceExpired(f))
       {
-        isBunny = true;
         tileState = BUNNY;
         pieceCycle = 1;
       }
       //if I recieve the signal from a fox to change and I am grass, change to fox
       if (myTileState(getLastValueReceivedOnFace(f)) == FOX && tileState == GRASS && !isValueReceivedOnFaceExpired(f))
       {
-        isFox = true;
         tileState = FOX;
         pieceCycle = 2;
       }
       //if I recieve the signal from a fox to change and I am grass, change to fox
       if (myTileState(getLastValueReceivedOnFace(f)) == FOX && tileState == TRAIL && !isValueReceivedOnFaceExpired(f))
       {
-        isFox = true;
         tileState = FOX;
         pieceCycle = 2;
       }
@@ -197,15 +190,15 @@ void gameLoop() {
     animalTransition = false;
   }
 
-
+//ANIMAL TRANSITION
   if (animalTransition)
   {
     //If i am an animal, send specific values for my type
-    if (isBunny)
+    if (tileState == BUNNY)
     {
       setValueSentOnAllFaces(3);
     }
-    if (isFox)
+    if (tileState == FOX)
     {
       setValueSentOnAllFaces(4);
     }
@@ -215,29 +208,29 @@ void gameLoop() {
       //if i was a a bunny blink and i am receiving a signal to transition from grass, show trail but don't be a bunny
       if (myTileState(getLastValueReceivedOnFace(f)) == GRASS && tileState == BUNNY && !isValueReceivedOnFaceExpired(f))
       {
-        isBunnyTrail = true;
         tileState = TRAIL;
-        isBunny = false;
       }
       //if I am a bunny and i recieve a fox signal, turn to fox and trigger a win state
-      if (myTileState(getLastValueReceivedOnFace(f)) == FOX && tileState == FOX && !isValueReceivedOnFaceExpired(f))
+      if (myTileState(getLastValueReceivedOnFace(f)) == FOX && tileState == BUNNY && !isValueReceivedOnFaceExpired(f))
       {
-        isFox = true;
-        pieceCycle = 2;
+        tileState = FOX;
         //TRIGGER THE WIN STATE
         changeMode(WIN);
       }
-      //if I was a fox and I am told to transition, turn off
+      //if I was a fox and I am told to transition by grass, turn off
       if (myTileState(getLastValueReceivedOnFace(f)) == GRASS && tileState == FOX && !isValueReceivedOnFaceExpired(f))
       {
-        isGrass = true;
+        tileState = GRASS;
+      }
+      //if I was a fox and I am told to transition by trail, turn off
+      if (myTileState(getLastValueReceivedOnFace(f)) == TRAIL && tileState == FOX && !isValueReceivedOnFaceExpired(f))
+      {
         tileState = GRASS;
         pieceCycle = 0;
       }
       //if i am a fox and I recieve a bunny signal, turn off
       if (myTileState(getLastValueReceivedOnFace(f)) == BUNNY && tileState == FOX && !isValueReceivedOnFaceExpired(f))
       {
-        isGrass = true;
         tileState = GRASS;
         pieceCycle = 0;
       }
@@ -270,12 +263,13 @@ void gameLoop() {
    Mode 2
 */
 void winLoop() {
+
+  //go crazy with orange
   setColor(dim(ORANGE, 125));
   setColorOnFace(ORANGE, ((millis() / 90) % 6));
   if (buttonPressed())
   {
-    isGrass = true;
-    pieceCycle = 0;
+    tileState = GRASS;
     changeMode(GAME);
   }
 }
@@ -286,11 +280,11 @@ void winLoop() {
 void resetLoop() {
 
   if (buttonPressed()) {
-    pieceCycle = 0;
-    isGrass = true;
+    tileState = GRASS;
     changeMode(GAME);
   }
 
+  //turn off and change
   setColor(OFF);
 }
 
