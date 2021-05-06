@@ -3,14 +3,12 @@
    Share our value
 */
 
-Timer waitTimer;
-#define WAIT_DURATION 1000
 
 bool isPulsing = false;  // 1 = TRUE and 0 = FALSE
 
 void setup() {
   // put your setup code here, to run once:
-  waitTimer.never();
+
 }
 
 void loop() {
@@ -30,16 +28,10 @@ void loop() {
       byte neighborVal = getLastValueReceivedOnFace(f); // listen
 
       // set my value, to be the same as my neighbor
-      if (neighborVal == 1 && waitTimer.isExpired()) {
-        waitTimer.set(WAIT_DURATION);
+      if (neighborVal == 1) {
+        isPulsing = true;
       }
     }
-  }
-
-  // wait a period of time before reacting
-  if(waitTimer.isExpired()) {
-    isPulsing = true;
-    waitTimer.never();
   }
 
   // Tell everyone if we are pulsing
@@ -53,7 +45,7 @@ void loop() {
 
   // display
   if(isPulsing) {
-    setColor( dim(WHITE, sin8_C(millis()/2)) );
+    setColor( dim(WHITE, sin8_C(millis()/20)) );
   }
   else {
     setColor( WHITE );
