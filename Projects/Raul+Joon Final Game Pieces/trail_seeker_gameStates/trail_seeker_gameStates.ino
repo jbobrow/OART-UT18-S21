@@ -17,7 +17,7 @@ enum signalStates {INERT, GO, RESOLVE};
 byte signalState = INERT;
 
 enum gameModes {GAME, WIN, RESET};
-byte gameMode = WIN;//the default mode when the game begins
+byte gameMode = GAME;//the default mode when the game begins
 
 enum tileStates {GRASS, BUNNY, FOX, TRAIL};
 byte tileState = GRASS;
