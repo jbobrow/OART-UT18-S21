@@ -11,6 +11,9 @@ Principle:
 ### Description
 Doctor defense is a two player game in which players compete to spread the virus or stop the virus from spreading to the end of the course.
 
+### Story
+As a member of the World Doctor Defense Force, you must train to deploy resources effectively. What is the best way to deploy doctors to stop the spread of a virus? Through this training simulator, you will find out. No pressure. But if you lose, you may be out of a job. 
+
 ## Game Instructions
 ### Setup
 Doctor defense is best played with at least 18 blinks. There should be one doctor blink for every 5 non-doctor blinks.
