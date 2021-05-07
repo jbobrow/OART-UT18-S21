@@ -17,8 +17,8 @@ As a member of the World Doctor Defense Force, you must train to deploy resource
 ## Game Instructions
 ### Setup
 Doctor defense is best played with at least 18 blinks. There should be one doctor blink for every 5 non-doctor blinks.
-Setup of the game can be split into two main parts: one for the virus/'attacking' player and one for defending player. First, the player whose goal is to spread the virus to the end of the course must create a path of blinks. No blink in the pathway should be connected on more than four of its faces. The last blink in the pathway should be double click to declare it as the goal.
-Next, the defending player may select the blinks that they want to use as doctors. This can be done by multi clicking the desired blinks. The number of doctors a player is allowed to place is dependent on the number of blinks used in the path. The defending player may not place a doctor blink that stops the pathway from being continuous.
+Setup of the game can be split into two main parts: one for the virus/'attacking' player and one for defending player. First, the player whose goal is to spread the virus to the end of the course must create a path of blinks. No blink in the pathway should be connected on more than four of its faces. The last blink in the pathway should be double click to declare it as the goal. The goal blink can only have ONE neighbor. 
+Next, the defending player may select the blinks that they want to use as doctors. This can be done by multi clicking the desired blinks. The number of doctors a player is allowed to place is dependent on the number of blinks used in the path. The defending player may not place a doctor blink that stops the pathway from being continuous. A doctor blink cannot be connected to the goal blink. 
 Once that is done, the virus player should single click a blink on the opposite end of the pathway from the goal.
 
 ### Gameplay
