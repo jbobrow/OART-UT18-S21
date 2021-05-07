@@ -1,7 +1,7 @@
 enum signalStates {READY, PATTERN, GAME};
 byte signalState = READY;
 
-enum gameModes {MODE1, MODE2, MODE3, MODE4};// game modes determining the diffuculty of the game (also includes the ready/starting mode)
+enum gameModes {MODE1, MODE2, MODE3, MODE4, MODE5, MODE6};// game modes determining the diffuculty of the game (also includes the ready/starting mode)
 byte gameMode = MODE1;//default ready mode when the game begins
 
 bool star = false;
@@ -10,6 +10,8 @@ bool star = false;
 byte pattern1[4] = {1, 2, 3, 4};
 byte pattern2[4] = {4, 3, 2, 1};
 byte pattern3[4] = {3, 2, 4, 1};
+byte pattern4[4] = {2, 2, 3, 4};
+byte pattern5[4] = {3, 1, 4, 2};
 
 byte id;
 
@@ -32,6 +34,10 @@ void setup() {
 }
 
 void loop() {
+  
+  if (buttonDoubleClicked()) {
+    changeMode(MODE1);
+  }
 
   // The following listens for and updates game state across all Blinks
   switch (signalState) {
@@ -54,11 +60,17 @@ void loop() {
     case MODE2: //hardest diffuculty game mode
       mode2Loop();
       break;
-    case MODE3: // medium diffuculty game mode
+    case MODE3: // semi hard diffuculty game mode
       mode3Loop();
       break;
-    case MODE4: //easy diffuculty game mode
+    case MODE4: //medium diffuculty game mode
       mode4Loop();
+      break;
+    case MODE5: // easy diffuculty game mode
+      mode5Loop();
+      break;
+    case MODE6: // super easy diffuculty game mode
+      mode6Loop();
       break;
   }
 
@@ -80,7 +92,7 @@ void mode1Loop() {
 
   }
 
-  setColor(autoColors[random(3) + 1]);  //creates sparkle lights
+  setColor(dim(autoColors[random(3) + 1], 150));  //creates sparkle lights
 }
 
 
@@ -119,7 +131,7 @@ void mode3Loop() {
   
   if(stepTimer.isExpired()) {
     step++;
-    stepTimer.set(1000);
+    stepTimer.set(2000);
 
     if(step > 5) {
       step = 0;
@@ -153,7 +165,7 @@ void mode4Loop() {
   
   if(stepTimer.isExpired()) {
     step++;
-    stepTimer.set(2000);
+    stepTimer.set(3000);
 
     if(step > 5) {
       step = 0;
@@ -171,12 +183,73 @@ void mode4Loop() {
     star = false;
   } 
   
+  if ( (star == false) && (buttonPressed()) ) { //if guessed wrong, switch to super easy game mode
+    changeMode(MODE5);
+    setColor(RED);
+  }
+  
   if ( (star == true) && (buttonPressed()) )  { //if guessed right, switch back to medium game mode
     changeMode(MODE3);
   }
 }
 
+void mode5Loop() {
+  if(stepTimer.isExpired()) {
+    step++;
+    stepTimer.set(3600);
 
+    if(step > 5) {
+      step = 0;
+    }
+  }
+  
+  if(pattern4[step] == id ) {
+    // light up when my ID is active
+   setColor(WHITE); 
+   star = true;
+  }
+  
+  else {
+    setColor(OFF);
+    star = false;
+  } 
+  if ( (star == false) && (buttonPressed()) ) { //if guessed wrong, switch to super easy game mode
+    changeMode(MODE6);
+    setColor(RED);
+  }
+  
+  if ( (star == true) && (buttonPressed()) )  { //if guessed right, switch back to medium game mode
+    changeMode(MODE4);
+  }
+}
+
+void mode6Loop() {
+  if(stepTimer.isExpired()) {
+    step++;
+    stepTimer.set(4200);
+
+    if(step > 5) {
+      step = 0;
+    }
+  }
+  
+  if(pattern5[step] == id ) {
+    // light up when my ID is active
+   setColor(WHITE); 
+   star = true;
+  }
+  
+  else {
+    setColor(OFF);
+    star = false;
+  } 
+  
+  if ( (star == true) && (buttonPressed()) )  { //if guessed right, switch back to medium game mode
+    changeMode(MODE5);
+  }
+}
+
+//changing game modes
 void changeMode( byte mode ) {
   gameMode = mode;  // change my own mode
   signalState = PATTERN; // signal my neighbors
@@ -184,10 +257,9 @@ void changeMode( byte mode ) {
 }
 
 
-
+// game state loops
 void readyLoop() {
- 
-
+  
   //listen for neighbors in GO
   FOREACH_FACE(f) {
     if (!isValueReceivedOnFaceExpired(f)) {//a neighbor!
