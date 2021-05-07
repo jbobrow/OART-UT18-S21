@@ -1,5 +1,5 @@
 README
-# Final Project - Doctor Defense
+# Final Project - Doctor Defense....by, Andrew, Brandon, & Carly 
 
 Principle: 
 - Core Mechanic: Level creation, placement strategies, epidemic simulation
