@@ -8,6 +8,8 @@ Bring  as many blinks as you can (at least 12) and a friend to play trail seeker
 
 Rules for Trail Seeker; https://www.notion.so/Trail-Seeker-Rules-4ff02bc38e064d10ba6225129ffda2cc (Apologies for creating a separate link. This document allows the rules to be presented better)
 
+Link: https://youtu.be/e-3OUUpaW24 
+
 ## Process
 - Inspiration
     

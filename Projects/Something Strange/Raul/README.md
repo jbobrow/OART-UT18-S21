@@ -8,6 +8,8 @@ Principle:
 - Number of Blinks: Intended for 6, could add more
 - Time to play: 2-6 minutes
 
+Link: https://youtu.be/ZUipBfhoFvs
+
 ### Description
 
 Who knows what to do in order to get home? What is home? Explore these topics in an offbeat puzzle game.

@@ -5,6 +5,8 @@ Game Selected
 - Number of Blinks - 10+ (ideally, could easily be played with 2 but the more the merrier)
 - Time to play - ~3 min
 
+Link: https://youtu.be/oX9wa_-wPLU 
+
 ### Description
 
 Test your touch and timing in a fast paced game of Jackpot. Race to accrue the most points before the timer expires or hit the Jackpot blink to win it all!
