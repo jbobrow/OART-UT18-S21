@@ -25,13 +25,13 @@ Once that is done, the virus player should single click a blink on the opposite 
 After single clicking a blink, it will become sick and the virus will begin to spread. If it reaches the goal blink declared during setup, the virus player wins. If the defending player wipes out all the virus blinks, then they win. Similar to an endless mode in a standard tower defense game, the players may make new paths and place doctors for as long as they want.
 
 Color Legend:
-Susceptible: Orange
-Immune: Yellow
-Sick: Green
-Recovered: Cyan
-Dead: Red
-Doctors: Purple
-Goal Blink: White
+- Susceptible: Orange
+- Immune: Yellow
+- Sick: Green
+- Recovered: Cyan
+- Dead: Red
+- Doctors: Purple
+- Goal Blink: White
 
 ### Win Condition
 Virus: Win by spreading all the way to the goal blink.
