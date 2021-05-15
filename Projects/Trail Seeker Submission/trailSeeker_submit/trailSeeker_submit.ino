@@ -1,5 +1,3 @@
-//note to reader- double click to cycle through possibilities. To move, click on your  blink and click on a
-//neighboring blink
 
 enum signalStates {INERT, GO, RESOLVE};
 byte signalState = INERT;
@@ -11,6 +9,7 @@ byte gameMode = GAME;//the default mode when the game begins
 //DOESN'T TRANSMIT TO ALL THE BLINKS. HOWEVER, IF YOU CHANGE THE gameMode to WIN or RESET AND SINGLE CLICK
 //IT BRINGS ALL THE BLINKS TO GREEN AND WORKS FINE
 
+//possible tiles
 enum tileStates {GRASS, BUNNY, FOX, TRAIL};
 byte tileState = GRASS;
 
@@ -67,11 +66,11 @@ void loop() {
   //setValueSentOnAllFaces(sendData);
 
 
-  //If i'm not transitioning, nobody needs to know what I am
+  //constantly send my information (what I am, my signal state and game mode)
 
-   byte sendData =  (tileState << 4) + (signalState << 2) + (gameMode);
-   setValueSentOnAllFaces(sendData);
-  
+  byte sendData =  (tileState << 4) + (signalState << 2) + (gameMode);
+  setValueSentOnAllFaces(sendData);
+
 }
 
 /*
@@ -85,9 +84,11 @@ void gameLoop() {
   if (buttonDoubleClicked() && tileState != TRAIL)
   {
     pieceCycle++;
-    if(pieceCycle == 3)
+
+    //if I exceed a piece cycle of two, loop piece cycle (cycle between grass, bunny, and fox)
+    if (pieceCycle == 3)
     {
-     pieceCycle = 0; 
+      pieceCycle = 0;
     }
   }
 
@@ -97,9 +98,9 @@ void gameLoop() {
     pieceCycle = 0;
     tileState = GRASS;
   }
+  //grass display
   if (tileState == GRASS)
   {
-    //grass display
     setColor(dim(GREEN, 135));
     setColorOnFace(GREEN, ((millis() / 1000) % 6));
   }
@@ -107,14 +108,12 @@ void gameLoop() {
   //one up in the cycle is a bunny
   if (((pieceCycle) % 4) == 1)// || tileState == BUNNY)
   {
-    //if these conditions are true, then become bunny and not anything else
     pieceCycle = 1;
     tileState = BUNNY;
   }
-
+  //bunny display
   if (tileState == BUNNY)
   {
-    //bunny display
     setColor(dim(WHITE, 125));
     setColorOnFace(WHITE, ((millis() / 200) % 6));
   }
@@ -122,18 +121,18 @@ void gameLoop() {
   //two up in the cycle is a fox
   if (((pieceCycle) % 4) == 2)// || tileState == FOX)
   {
-    //if these conditions are true, then become a fox and not anything else
     pieceCycle = 2;
     tileState = FOX;
   }
+  //fox display
   if (tileState == FOX)
   {
-    //fox display
     setColor(dim(ORANGE, 125));
     setColorOnFace(ORANGE, ((millis() / 500) % 6));
   }
-  
-  if(((pieceCycle) % 4) == 3)
+
+  //if I am 3 in the piece cycle, turn into a trail in order to not conflict when changing to a trail
+  if (((pieceCycle) % 4) == 3)
   {
     pieceCycle = 3;
     tileState = TRAIL;
@@ -161,6 +160,8 @@ void gameLoop() {
     {
       animalTransition = true;
     }
+
+    //signal that I want to change
     changeTile(tileState);
   }
 
@@ -172,51 +173,59 @@ void gameLoop() {
   {
 
     //if I am transitioning as an animal, tell my neighbors what I am
-
     FOREACH_FACE(f)
     {
+
+      //get my neighbor's tile state
       byte neighborTileState = getTileState(getLastValueReceivedOnFace(f));
-      //if i was a a bunny blink and i am receiving a signal to transition from grass, show trail but don't be a bunny
+
+      //get my neighbor's signal state
       byte neighborSignal = getSignalState(getLastValueReceivedOnFace(f));
-        
-      if (!isValueReceivedOnFaceExpired(f) && neighborSignal == GO)
+
+      if (!isValueReceivedOnFaceExpired(f) && neighborSignal == GO) // If I have a neighbor and they are telling me they are transitioning
       {
-        if (neighborTileState == BUNNY && tileState == BUNNY)
+        if (neighborTileState == BUNNY && tileState == BUNNY) // & they have changed to a bunny and I am a bunny
         {
+          //change to a trail and say I am done transitioning
           tileState = TRAIL;
           pieceCycle = 3;
           signalState = RESOLVE;
-          
+
         }
-        //if I am a bunny and i recieve a fox signal, turn to fox and trigger a win state
+        // & they have changed to a fox and I am a bunny
         else if (neighborTileState == FOX && tileState == BUNNY)
         {
+          //set myself to a fox
           tileState = FOX;
           pieceCycle = 2;
           //TRIGGER THE WIN STATE
           changeMode(WIN);
         }
-        //if I was a fox and I am told to transition by grass, turn off
+        //& they have changed to a fox and I am a fox
         else if (neighborTileState == FOX && tileState == FOX)
         {
+          //leave a grass piece and say I am done transitioning
           tileState = GRASS;
           pieceCycle = 0;
           signalState = RESOLVE;
         }
-        //if I was a fox and I am told to transition by trail, turn off
+        //& they have changed to a trail and I am a fox
         else if (neighborTileState == TRAIL && tileState == FOX)
         {
+          //become a grass piece and say I am done transitioning
           tileState = GRASS;
           pieceCycle = 0;
           signalState = RESOLVE;
         }
-        //if i am a fox and I recieve a bunny signal, turn off
+        //& they are a Bunny and I am a fox
         else if (neighborTileState == BUNNY && tileState == FOX )
         {
+          //leave a grass piece and say I am done transitioning
           tileState = GRASS;
           pieceCycle = 0;
           signalState = RESOLVE;
         }
+        //break out after something has happened
         break;
       }
     }
@@ -225,39 +234,42 @@ void gameLoop() {
   //NON-ANIMAL TRANISTION
   if (transition)
   {
-    //send what I am when I want to transition
-    //byte sendData = (tileState << 4) + (signalState << 2) + (gameMode);
-    //setValueSentOnAllFaces(sendData);
 
     FOREACH_FACE(f)
     {
+      //get my neighbor's tile state and signal state on every face chach
       byte animalNeighborState = getTileState(getLastValueReceivedOnFace(f));
       byte neighborSignal = getSignalState(getLastValueReceivedOnFace(f));
-      
-      //if I am grass and I get the signal from a bunny to change, turn into a bunny
+
+      //if I have a neighbor and they are saying to transition
       if (!isValueReceivedOnFaceExpired(f) && neighborSignal == GO)
       {
-
-        //if I recieve the signal from a fox to change and I am grass, change to fox
+        //& my neighbor is a fox and I am grass
         if (animalNeighborState == FOX && tileState == GRASS)
         {
+          //become a fox and say I am done transitioning
           tileState = FOX;
           pieceCycle = 2;
           signalState = RESOLVE;
-        }        
+        }
+        //& my neighbor is a bunny and I am grass
         else if (animalNeighborState == BUNNY && tileState == GRASS)
         {
+          //become a bunny and say I am done transitioning
           tileState = BUNNY;
           pieceCycle = 1;
           signalState = RESOLVE; // IN QUESTION
         }
-        //if I recieve the signal from a fox to change and I am trail, change to fox
+
+        //& I am a trail and and my neighbor is a fox
         else if (animalNeighborState == FOX && tileState == TRAIL)
         {
+          //become a fox and say I am done transitioning
           tileState = FOX;
           pieceCycle = 2;
           signalState = RESOLVE;
         }
+        //break out after a loop
         break;
       }
 
@@ -271,7 +283,8 @@ void gameLoop() {
   //if both are finished transitioning and checking, no need to check anymore
   if (transitionDone)
   {
-    changeMode(GAME);
+    changeMode(GAME);//finish all transitiongs
+    //all transitions are done
     transition = false;
     animalTransition = false;
     transitionDone = false;
@@ -319,14 +332,10 @@ void winLoop() {
 */
 void resetLoop() {
 
-   //turn off and change
-   //wipeTimer.set(1000);
- setColor(OFF);
-  //if (wipeTimer.isExpired()) {
-    tileState = GRASS;
-    pieceCycle = 0;
-    changeMode(GAME);
- // }
+  setColor(OFF);
+  tileState = GRASS;
+  pieceCycle = 0;
+  changeMode(GAME);
 
 
 }
@@ -344,8 +353,8 @@ void changeMode( byte mode ) {
 
 void changeTile(byte state)
 {
-  signalState = GO;
-  tileState = state;
+  signalState = GO; //signal to my neighbor that I want to change
+  tileState = state; //register my state
 }
 
 /*
@@ -357,8 +366,10 @@ void inertLoop() {
   //listen for neighbors in GO
   FOREACH_FACE(f) {
     if (!isValueReceivedOnFaceExpired(f)) {//a neighbor!
-      if (getSignalState(getLastValueReceivedOnFace(f)) == GO && getGameMode(getLastValueReceivedOnFace(f)) != GAME) {//a neighbor saying GO!
-        byte neighborGameMode = getGameMode(getLastValueReceivedOnFace(f));
+      //a neighbor saying GO and my neighbor is not in game
+      if (getSignalState(getLastValueReceivedOnFace(f)) == GO && getGameMode(getLastValueReceivedOnFace(f)) != GAME) {
+        byte neighborGameMode = getGameMode(getLastValueReceivedOnFace(f)); //register neighbor game mode and
+        //change to the game mode of my neighbor
         changeMode(neighborGameMode);
       }
 
@@ -378,7 +389,8 @@ void goLoop() {
       if (getSignalState(getLastValueReceivedOnFace(f)) == INERT) {//This neighbor doesn't know it's GO time. Stay in GO
         signalState = GO;
       }
-      if (getSignalState(getLastValueReceivedOnFace(f)) == RESOLVE && gameMode == GAME)
+      if (getSignalState(getLastValueReceivedOnFace(f)) == RESOLVE && gameMode == GAME) 
+      //If neighbor is in resolve and the game mode is in game(happens after a transition), switch me to resolve and break out
       {
         signalState = RESOLVE;
         break;
